@@ -2,8 +2,18 @@
 
 A structured, ready-to-use prompt library to unlock the full power of Nexthink Assist and Nexthink Workspace.
 
-## 🚀 Live Playbook
-👉 https://cgaginnext.github.io/nexthink-assist-playbook/
+## 🚀 Access the playbook
+
+### 🌐 Live version (recommended)
+👉 https://cgaginnext.github.io/Nexthink-Assist-Playbook/
+
+### 📦 GitHub repository
+👉 https://github.com/cgaginnext/Nexthink-Assist-Playbook
+
+### 💾 Download
+1. Click **Code → Download ZIP**
+2. Extract the files
+3. Open `index.html` in your browser
 
 ## 🧠 About this playbook
 
