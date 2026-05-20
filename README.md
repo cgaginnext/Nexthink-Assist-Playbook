@@ -2,18 +2,34 @@
 
 A structured, ready-to-use prompt library to unlock the full power of Nexthink Assist and Nexthink Workspace.
 
-## 🚀 Access the playbook
+## 🚀 How to use the playbook
 
-### 🌐 Live version (recommended)
+You can use the playbook in different ways depending on your needs:
+
+### 🌐 Use it online (recommended)
+Access the playbook directly in your browser — always up to date and no setup required  
 👉 https://cgaginnext.github.io/Nexthink-Assist-Playbook/
 
-### 📦 GitHub repository
-👉 https://github.com/cgaginnext/Nexthink-Assist-Playbook
+### 💾 Download and use locally
+Download the playbook and run it offline:
 
-### 💾 Download
 1. Click **Code → Download ZIP**
 2. Extract the files
 3. Open `index.html` in your browser
+
+✅ Works fully offline  
+✅ No installation required  
+✅ Can be customized for internal use  
+
+### 🛠️ Create your own version
+You can also tailor the playbook to your specific needs:
+
+1. Fork this repository
+2. Adapt prompts, sections, or categories to your context
+3. Customize it for internal teams or customer environments
+4. Share your version with your stakeholders
+
+👉 Ideal for adapting the playbook to specific use cases, industries, or operational models.
 
 ## 🧠 About this playbook
 
