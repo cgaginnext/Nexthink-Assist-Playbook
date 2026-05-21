@@ -1212,6 +1212,20 @@ const promptPacks = [
   { category: "performance", label: "Connectivity issues", text: "Analyze connectivity issues in the last 24 hours and highlight major deviations across sites." },
   { category: "performance", label: "Wi-Fi stability", text: "List devices with the worst Wi-Fi stability over the last 30 days and suggest improvements." },
   { category: "performance", label: "Site comparison", text: "Compare backend response times of a critical application across locations." },
+  { category: "performance", label: "Device View Overview", text: "Open the Device View for [device_name] and provide a comprehensive overview of current status and recent alerts" },
+  { category: "performance", label: "Device View Network Correlation", text: "Open the Device View for [device_name] and correlate the network connectivity timeline with the device's overall performance metrics during the same 3-hour window." },
+  { category: "performance", label: "Root cause for connectivity issues", text: "Based on the comprehensive Device View analysis including environmental patterns for device [device_name], what is the most likely root cause of the connectivity issues ? Consider: Location-specific factors (remote vs office), VPN infrastructure dependencies, Environmental pattern correlations, Infrastructure vs device-specific causes.Provide evidence from each analysis phase and environmental context." },
+  { category: "performance", label: "Connection Quality Assessment", text: "What are the TCP connection establishment times and failure rates for device [device_name] in the past 4 hours?" },
+  { category: "performance", label: "Device View Stability Correlation", text: "Open the Device View for [device_name] and correlate stability events (crashes, software changes) with the timeline of network connectivity degradation and user-reported issues" },
+  { category: "performance", label: "Comprehensive Device View Analysis", text: "Open the Device View for [device_name] and provide a complete timeline correlation analysis covering: Network connectivity events vs. hardware performance, Application failures vs. system stability, User activity patterns vs. resource utilization, Software changes vs. connectivity degradation, pattern analysis including location (remote vs office), adapter switching patterns, VPN and connectivity changes. Focus on the past 2 days." },
+  { category: "performance", label: "Network Adapter Analysis", text: "Analyze network connectivity for device [device_name] over the past 2 days." },
+  { category: "performance", label: "Collaboration Tool Issues", text: "Show me the overall call quality summary for Microsoft Teams over the last 14 days — how many sessions were poor vs. good?" },
+  { category: "performance", label: "Identify Recommendations & Root Cause Leads", text: "What are the top technical issues linked to poor call quality, and what are their potential causes?" },
+  { category: "performance", label: "Segment the Affected Population", text: "Which departments, locations, or device types are most affected by poor call quality?" },
+  { category: "performance", label: "Drill Into Call Performance Metrics", text: "What are the key call performance metrics (jitter, RTT, packet loss, frame rate) contributing to poor sessions?" },
+  { category: "performance", label: "Identify the Most Impacted Users & Devices", text: "Which users and devices have the highest number of poor-quality calls this week?" },
+  { category: "performance", label: "Deep-Dive via Device View", text: "Open the Device View for [device name] and correlate call quality with CPU, memory, network, and application events during the call." },
+  { category: "performance", label: "Analyze All Participants of a Specific Call", text: "For the poor call on [date/time], show me all participants and identify who had the worst quality and why." },
   { category: "targeting", label: "Most impacted users", text: "Identify users most impacted by poor DEX scores in the last 7 days." },
   { category: "targeting", label: "High CPU devices", text: "List devices with the highest CPU usage during working hours." },
   { category: "targeting", label: "No reboot devices", text: "Find devices that haven’t been restarted in over 30 days." },
@@ -1252,10 +1266,10 @@ const promptPacks = [
   { category: "management", label: "Business Value", text: "How can Navigator help our organization build a business case and demonstrate measurable DEX value to IT leadership?" },
   { category: "management", label: "Target Audience", text: "Who in our organization should be involved in a DEXOps Navigator journey, and how do we get the right stakeholders on board?" },
   { category: "management", label: "Maturity Assessment", text: "How does a DEXOps Maturity Assessment work, and how can our organization use it to define a realistic transformation roadmap?" },
- { category: "management", label: "Pillar Flexibility", text: "Can our organization be at different maturity levels across different pillars, and how should we prioritize where to improve first?" },
- { category: "management", label: "Playbooks", text: "What are Navigator Playbooks and how can our organization use them to take structured, outcome-driven action?" },
- { category: "management", label: "Cross-team Collaboration", text: "How does Navigator support collaboration between IT, HR, and business stakeholders, and how can our organization build that alignment in practice?" },
- { category: "management", label: "Shared Outcomes", text: "How can our organization use Navigator to define shared DEX goals and create accountability across teams?" },
+  { category: "management", label: "Pillar Flexibility", text: "Can our organization be at different maturity levels across different pillars, and how should we prioritize where to improve first?" },
+  { category: "management", label: "Playbooks", text: "What are Navigator Playbooks and how can our organization use them to take structured, outcome-driven action?" },
+  { category: "management", label: "Cross-team Collaboration", text: "How does Navigator support collaboration between IT, HR, and business stakeholders, and how can our organization build that alignment in practice?" },
+  { category: "management", label: "Shared Outcomes", text: "How can our organization use Navigator to define shared DEX goals and create accountability across teams?" },
   { category: "optimization", label: "Device replacement candidates", text: "Identify devices to replace based on age, performance, and DEX score." },
   { category: "optimization", label: "Software cleanup", text: "List software installed on fewer than 5 devices as candidates for removal." },
   { category: "optimization", label: "Disk space risk", text: "Highlight devices with low disk space and degraded performance." },
@@ -1280,11 +1294,11 @@ const promptPacks = [
   { category: "action", label: "Proactive Alerting", text: "How can our organization configure alerts and impact monitoring in Nexthink to detect emerging issues before they affect a large population?" },
   { category: "action", label: "Spark 101", text: "What is Nexthink Spark and how can our organization use it as a personal IT agent to move toward a zero-ticket support model?" },
   { category: "action", label: "Agentic AI Engine", text: "How does Spark's agentic AI resolution engine work, and how can our organization configure it to autonomously handle our most common Level-1 issues?" },
- { category: "action", label: "DEX-Powered Diagnostics", text: "How does Spark use real-time DEX telemetry to diagnose issues, and how can our organization ensure it has the right data context to maximize diagnostic accuracy?" },
+  { category: "action", label: "DEX-Powered Diagnostics", text: "How does Spark use real-time DEX telemetry to diagnose issues, and how can our organization ensure it has the right data context to maximize diagnostic accuracy?" },
   { category: "action", label: "Instant Self-Service", text: "How can our organization use Spark to give employees immediate, self-service IT resolution without queues, handoffs, or tickets?" },
   { category: "action", label: "Omnichannel Engagement", text: "Which communication channels does Spark support, and how can our organization deploy it where employees already work to maximize adoption?" },
   { category: "action", label: "Natural Language Support", text: "How does Spark understand employee issues expressed in natural language, and how can our organization tailor it to our internal IT vocabulary and common requests?" },
- { category: "action", label: "IT-Approved Automations", text: "How can our organization define and govern the actions Spark is allowed to execute, ensuring compliance while maximizing autonomous resolution?" },
+  { category: "action", label: "IT-Approved Automations", text: "How can our organization define and govern the actions Spark is allowed to execute, ensuring compliance while maximizing autonomous resolution?" },
   { category: "action", label: "Audit & Reasoning Logs", text: "How does Spark log conversations, actions, and decisions, and how can our organization use that data for compliance, tuning, and continuous improvement?" },
   { category: "action", label: "Smart Escalation", text: "How does Spark decide when to escalate to a human agent, and how can our organization configure escalation paths to align with our support tiers?" },
   { category: "action", label: "Chatbot Integration", text: "How can our organization integrate Spark with existing enterprise chatbots using the Agent-to-Agent protocol to meet employees in the tools they already use?" },
@@ -1293,7 +1307,7 @@ const promptPacks = [
   { category: "action", label: "Ticket Deflection ROI", text: "How can our organization measure the ticket deflection rate and cost savings achieved through Spark to build a business case for broader rollout?" },
   { category: "action", label: "Continuous Learning", text: "How does Spark learn from past escalations over time, and how can our organization actively contribute to improving its resolution accuracy?" },
   { category: "action", label: "Adoption & Rollout", text: "What is the recommended approach for our organization to roll out Spark progressively and drive employee adoption across different business units?" },
-   { category: "engage", label: "User notification campaign", text: "Create a Nexthink Engage notification to inform users about a planned IT maintenance impacting VPN access. The message should be clear, concise, and include timing, expected impact, and recommended actions."},
+  { category: "engage", label: "User notification campaign", text: "Create a Nexthink Engage notification to inform users about a planned IT maintenance impacting VPN access. The message should be clear, concise, and include timing, expected impact, and recommended actions."},
   { category: "engage", label: "Security awareness campaign", text: "Create an Engage awareness campaign to remind users about phishing risks. Include a short message, 2–3 key behaviors to adopt, and a simple call to action to report suspicious emails."},
   { category: "engage", label: "User experience survey", text: "Design an Engage survey to assess user satisfaction with device performance. Include 3–5 questions with a mix of rating scale and optional feedback, and suggest how to interpret the results."},
   { category: "engage", label: "Emergency communication", text: "Create an Engage campaign for an urgent IT incident (e.g. VPN outage). Include a short message, expected resolution timeframe (if known), and clear instructions for users during the incident."},
@@ -1326,7 +1340,6 @@ const promptPacks = [
   { category: "learning", label: "Logon time measurement", text: "How is logon time measured in Nexthink? Please explain the different phases involved and what elements typically impact logon duration."},
   { category: "learning", label: "Understanding p95 and p05", text: "Explain what p95 and p05 mean in performance analysis. How should they be interpreted, and how can they be used effectively when analyzing DEX metrics?"},
   { category: "learning", label: "DEXOps maturity framework", text: "How can I understand which level of DEXOps maturity my organization has?" }
-  
 ];
 
 const phases = [
@@ -1788,7 +1801,7 @@ document.querySelectorAll('#section-faq .phase-header').forEach(header => {
 
 </script>
 <footer class="page-footer">
-  created by Christophe Gagin - Nexthink | last updated on 18.05.2026
+  created by Christophe Gagin - Nexthink | last updated on 21.05.2026
 </footer>
 </body>
 </html>
