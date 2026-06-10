@@ -2,6 +2,8 @@
 
 A structured, ready-to-use prompt library to unlock the full power of Nexthink Assist and Nexthink Workspace.
 
+> 🚧 This repository is community-driven and is not officially maintained by Nexthink.
+
 👉 **Open the playbook:** https://cgaginnext.github.io/Nexthink-Assist-Playbook/
 
 ---
@@ -105,3 +107,25 @@ Feel free to propose improvements via issues or pull requests.
 ## 🧑‍💻 Author
 
 Christophe Gagin – Nexthink
+
+---
+
+# Contributing
+
+Contributions are welcome.
+
+Please:
+
+- Keep agents modular
+- Use clear operational language
+- Document assumptions
+- Add examples whenever possible
+- Prefer reusable models
+- Avoid environment-specific hardcoding
+- Prioritize explainability and operational value
+
+---
+
+# Disclaimer
+
+This repository is community-driven and is not officially maintained by Nexthink.
