@@ -150,6 +150,26 @@
     margin: 0 auto;
     position: relative;
   }
+  .hero-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0, 177, 169, 0.18);
+    color: #6EE7DF;
+    border: 1px solid rgba(0, 177, 169, 0.35);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 15px;
+    border-radius: 20px;
+    text-decoration: none;
+    position: relative;
+    margin-top: 1rem;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .hero-link:hover {
+    background: rgba(0, 177, 169, 0.28);
+    border-color: rgba(0, 177, 169, 0.55);
+  }
 
   /* ============================================================ NAV STRIP */
   .nav-strip {
@@ -620,6 +640,7 @@
     <div class="hero-badge"><i class="ti ti-cpu"></i> Nexthink Assist</div>
     <h1>Progressive Prompt Playbook</h1>
     <p>Your DEX co-pilot guide — from daily operations to predictive, value-driven IT intelligence.</p>
+    <div><a class="hero-link" href="https://cgaginnext.github.io/nexthink-workspace-it-agents/" target="_blank" rel="noopener noreferrer"><i class="ti ti-robot"></i> Explore the IT Agents Catalog →</a></div>
   </div>
 
   <nav class="nav-strip" role="navigation" aria-label="Sections">
@@ -1801,7 +1822,7 @@ document.querySelectorAll('#section-faq .phase-header').forEach(header => {
 
 </script>
 <footer class="page-footer">
-  created by Christophe Gagin - Nexthink | last updated on 21.05.2026
+  created by Christophe Gagin - Nexthink | last updated on 13.07.2026
 </footer>
 </body>
 </html>
