@@ -1,4 +1,4 @@
-# Nexthink Assist – Progressive Prompt Playbook
+# Nexthink Workspace – Progressive Prompt Playbook
 
 A structured, ready-to-use prompt library to unlock the full power of Nexthink Assist and Nexthink Workspace.
 
@@ -71,7 +71,7 @@ Together, they allow IT teams to move from reactive troubleshooting to proactive
 
 ## 📘 What’s inside
 
-- ✅ Prompt packs (monitoring, security, optimization, etc.)
+- ✅ Prompt packs across 19 categories: monitoring, performance, security, patching, optimization, automation, IT operations & reliability, employee experience, change & deployment, VDI, FinOps & Green IT, analytics, and more
 - ✅ Deep investigation framework (7 phases)
 - ✅ Business value templates
 - ✅ Automation & Remote Actions guidance
@@ -93,7 +93,7 @@ Together, they allow IT teams to move from reactive troubleshooting to proactive
 1. Open the playbook  
 2. Navigate by category or search  
 3. Copy a prompt  
-4. Paste into Nexthink Assist  
+4. Paste into Nexthink Workspace  
 5. Iterate and refine  
 
 ---
