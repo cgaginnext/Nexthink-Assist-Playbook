@@ -394,10 +394,17 @@
     text-transform: uppercase;
     letter-spacing: 0.06em;
     color: var(--nx-blue-dark);
-    margin-bottom: 8px;
   }
   @media (prefers-color-scheme: dark) {
     .prompt-card .plabel { color: var(--nx-blue); }
+  }
+  .prompt-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
   }
   .prompt-text {
     font-size: 13px;
@@ -410,14 +417,20 @@
     padding: 0.75rem 1rem;
     white-space: pre-wrap;
     word-break: break-word;
-    padding-right: 80px;
+  }
+  .placeholder-tag {
+    background: var(--nx-papaya-light);
+    color: var(--nx-papaya);
+    padding: 0 4px;
+    border-radius: 3px;
+    font-weight: 700;
+    border-bottom: 1px dashed var(--nx-papaya);
   }
 
   /* ============================================================ COPY BUTTON */
   .copy-btn {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
+    position: static;
+    flex-shrink: 0;
     background: var(--color-bg);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
@@ -441,6 +454,149 @@
     background: var(--nx-teal);
     color: #FFFFFF;
     border-color: var(--nx-teal);
+  }
+
+  /* ============================================================ CARD ACTIONS (star + link + qr + copy) */
+  .card-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .icon-btn, .link-btn, .qr-btn, .star-btn {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    font-size: 13px;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .link-btn:hover, .qr-btn:hover {
+    background: var(--nx-blue-dark);
+    color: #FFFFFF;
+    border-color: var(--nx-blue-dark);
+  }
+  .link-btn.copied {
+    background: var(--nx-teal);
+    color: #FFFFFF;
+    border-color: var(--nx-teal);
+  }
+  .star-btn:hover { background: var(--nx-papaya-light); color: var(--nx-papaya); border-color: var(--nx-papaya); }
+  .star-btn.favorited { background: var(--nx-papaya-light); color: var(--nx-papaya); border-color: var(--nx-papaya); }
+
+  /* ============================================================ SHARED-LINK HIGHLIGHT */
+  @keyframes highlightPulse {
+    0%   { box-shadow: 0 0 0 0 rgba(49,148,247,0.55); border-color: var(--nx-blue); }
+    70%  { box-shadow: 0 0 0 10px rgba(49,148,247,0); border-color: var(--nx-blue); }
+    100% { box-shadow: 0 0 0 0 rgba(49,148,247,0); }
+  }
+  .highlight-pulse {
+    animation: highlightPulse 1.4s ease-out 2;
+    border-color: var(--nx-blue) !important;
+  }
+
+  /* ============================================================ NAV BADGE */
+  .nav-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: 20px;
+    background: var(--nx-papaya);
+    color: #FFFFFF;
+    font-size: 10px;
+    font-weight: 700;
+    margin-left: 2px;
+  }
+  .nav-badge.empty { display: none; }
+
+  /* ============================================================ QR MODAL */
+  .qr-overlay {
+    position: fixed; inset: 0;
+    background: rgba(11,20,65,0.55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1rem;
+  }
+  .qr-overlay.open { display: flex; }
+  .qr-modal {
+    background: var(--color-bg);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    max-width: 280px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.35);
+  }
+  .qr-modal img { width: 200px; height: 200px; border-radius: 8px; border: 1px solid var(--color-border); margin-bottom: 0.85rem; background:#fff; }
+  .qr-modal .qr-url {
+    font-size: 11px;
+    word-break: break-all;
+    color: var(--color-text-secondary);
+    font-family: var(--font-mono);
+    margin-bottom: 1rem;
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-sm);
+    padding: 6px 8px;
+  }
+  .qr-modal .qr-close {
+    background: var(--nx-blue);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 7px 18px;
+    font-size: 13px;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  /* ============================================================ RECENTLY COPIED */
+  .recent-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    padding: 4px 8px 4px 12px;
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: all 0.15s;
+    margin: 0 6px 6px 0;
+  }
+  .recent-chip:hover { border-color: var(--nx-blue); color: var(--nx-blue-dark); }
+  .recent-chip .remove-chip {
+    background: none; border: none; cursor: pointer;
+    color: var(--color-text-tertiary); font-size: 13px; line-height: 1;
+    padding: 2px; border-radius: 50%;
+  }
+  .recent-chip .remove-chip:hover { color: var(--nx-papaya); }
+  .recent-empty { font-size: 13px; color: var(--color-text-tertiary); font-style: italic; }
+
+  /* ============================================================ FAVORITES CARD SOURCE TAG */
+  .fav-source-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-bottom: 6px;
   }
 
   /* ============================================================ FILTER STRIP */
@@ -602,7 +758,7 @@
     .section { display: block !important; margin-bottom: 2rem; }
     .collapsible { display: block !important; }
     .phase-body { display: block !important; }
-    .copy-btn { display: none; }
+    .copy-btn, .card-actions { display: none; }
     .hero {
       background: var(--nx-navy) !important;
       -webkit-print-color-adjust: exact;
@@ -623,12 +779,13 @@
   </div>
 
   <nav class="nav-strip" role="navigation" aria-label="Sections">
-    <button class="nav-btn active" onclick="showSection('start', this)"><i class="ti ti-rocket"></i> Getting started</button>
-    <button class="nav-btn" onclick="showSection('prompts', this)"><i class="ti ti-message-bolt"></i> Prompt packs</button>
-    <button class="nav-btn" onclick="showSection('investigation', this)"><i class="ti ti-zoom-scan"></i> Deep investigation</button>
-    <button class="nav-btn" onclick="showSection('value', this)"><i class="ti ti-chart-arrows-vertical"></i> Business value</button>
-    <button class="nav-btn" onclick="showSection('actions', this)"><i class="ti ti-player-play"></i> Acting at scale</button>
-	<button class="nav-btn" onclick="showSection('faq', this)"><i class="ti ti-help"></i> FAQ</button>
+    <button class="nav-btn active" data-section="start" onclick="showSection('start', this)"><i class="ti ti-rocket"></i> Getting started</button>
+    <button class="nav-btn" data-section="prompts" onclick="showSection('prompts', this)"><i class="ti ti-message-bolt"></i> Prompt packs</button>
+    <button class="nav-btn" data-section="investigation" onclick="showSection('investigation', this)"><i class="ti ti-zoom-scan"></i> Deep investigation</button>
+    <button class="nav-btn" data-section="value" onclick="showSection('value', this)"><i class="ti ti-chart-arrows-vertical"></i> Business value</button>
+    <button class="nav-btn" data-section="actions" onclick="showSection('actions', this)"><i class="ti ti-player-play"></i> Acting at scale</button>
+	<button class="nav-btn" data-section="faq" onclick="showSection('faq', this)"><i class="ti ti-help"></i> FAQ</button>
+    <button class="nav-btn" data-section="favorites" onclick="showSection('favorites', this)"><i class="ti ti-star"></i> Favorites <span id="fav-count-badge" class="nav-badge empty">0</span></button>
   </nav>
 
   <!-- GLOBAL SEARCH -->
@@ -637,6 +794,9 @@
     <input type="text" id="global-search" placeholder="Search across all prompts…" autocomplete="off" oninput="handleSearch(this.value)" onkeydown="if(event.key==='Escape'){clearSearch()}">
     <button class="search-clear" onclick="clearSearch()" title="Clear search" tabindex="-1"><i class="ti ti-x"></i></button>
   </div>
+  <p style="font-size:12px;color:var(--color-text-tertiary);margin:-0.75rem 0 1.25rem;">
+    <span class="placeholder-tag" style="font-size:10px;">[like this]</span> marks a value to fill in before pasting — it won't be replaced automatically.
+  </p>
 
   <!-- SEARCH RESULTS (hidden until query) -->
   <div id="section-search" class="section">
@@ -716,6 +876,9 @@
 
       <p class="sub-label">Example high-quality prompts</p>
       <div id="starter-prompts"></div>
+
+      <p class="sub-label" style="margin-top:1.75rem;">Recently copied</p>
+      <div id="recent-copies-list"></div>
     </div>
   </div>
 
@@ -850,7 +1013,7 @@
     <p class="section-sub">Understand how Nexthink Assist works and how to use it effectively.</p>
 
     <!-- FAQ ITEM -->
-    <div class="phase-wrap">
+    <div class="phase-wrap" id="faq-conversation-sharing">
       <div class="phase-header">
         <span class="phase-title">How does conversation sharing work?</span>
         <i class="ti ti-chevron-down phase-chevron"></i>
@@ -883,7 +1046,7 @@
     </div>
 
     <!-- FAQ ITEM -->
-    <div class="phase-wrap">
+    <div class="phase-wrap" id="faq-why-variations">
       <div class="phase-header">
         <span class="phase-title">Why does the same prompt sometimes produce different answers?</span>
         <i class="ti ti-chevron-down phase-chevron"></i>
@@ -909,7 +1072,7 @@
     </div>
 
     <!-- FAQ ITEM -->
-    <div class="phase-wrap">
+    <div class="phase-wrap" id="faq-reliability">
       <div class="phase-header">
         <span class="phase-title">Is Nexthink Assist reliable if answers can vary?</span>
         <i class="ti ti-chevron-down phase-chevron"></i>
@@ -939,7 +1102,7 @@
     </div>
 
     <!-- FAQ ITEM -->
-    <div class="phase-wrap">
+    <div class="phase-wrap" id="faq-context-impact">
       <div class="phase-header">
         <span class="phase-title">How does conversation context impact results?</span>
         <i class="ti ti-chevron-down phase-chevron"></i>
@@ -968,7 +1131,7 @@
 
 
 <!-- FAQ ITEM -->
-<div class="phase-wrap">
+<div class="phase-wrap" id="faq-reduce-variations">
   <div class="phase-header">
     <span class="phase-title">How can I reduce variations and get more consistent results from the same prompt?</span>
     <i class="ti ti-chevron-down phase-chevron"></i>
@@ -1164,7 +1327,7 @@ Analyze patterns by:
     <!-- FINAL -->
     <p class="sub-label">Reusable structured prompt example</p>
 
-    <div class="prompt-card">
+    <div class="prompt-card" id="faq-automation-ready-prompt">
       <div class="plabel">Automation-ready prompt</div>
       <div class="prompt-text">
 Analyze Windows devices in France, excluding servers (last 7 days).
@@ -1190,9 +1353,6 @@ Constraints:
 - Consistent wording
 - Actionable insights only
 </div>
-      <button class="copy-btn" onclick="copyToClipboard(this, this.previousElementSibling.innerText)">
-        <i class="ti ti-copy"></i> Copy
-      </button>
     </div>
 
     <div class="info-item">
@@ -1212,6 +1372,15 @@ Constraints:
 </div>
 
 
+  </div>
+</div>
+
+<!-- FAVORITES -->
+<div id="section-favorites" class="section">
+  <div class="content-card">
+    <h2 class="section-title">My favorites</h2>
+    <p class="section-sub">Prompts you've starred, saved locally in this browser (not shared with anyone else).</p>
+    <div id="favorites-list"></div>
   </div>
 </div>
 
@@ -1531,7 +1700,40 @@ Provide insights: top failure drivers, high failure rate actions (>30%), large s
 Recommend actions: improve targeting (e.g., laptops only, OS filters), adjust scheduling (availability/retries), enhance scripts (pre-checks, error handling, idempotency), fix permissions/context, validate dependencies. Highlight quick wins.` }
 ];
 
-function copyToClipboard(btn, text) {
+// Single source of truth for category display (label, accent color, tint) — used by
+// favorites, the "recently copied" list, and global search result tags.
+const CATEGORY_META = {
+  monitoring:   { label: 'Monitoring',            color: '#3194F7', bg: '#E3F0FE' },
+  patching:     { label: 'Patching',              color: '#00B1A9', bg: '#D6F5F4' },
+  security:     { label: 'Security',               color: '#FF7461', bg: '#FFECEA' },
+  optimization: { label: 'Optimization',          color: '#803795', bg: '#F3E8F7' },
+  performance:  { label: 'Performance',           color: '#3194F7', bg: '#E3F0FE' },
+  targeting:    { label: 'Targeting',              color: '#3194F7', bg: '#E3F0FE' },
+  usage:        { label: 'Usage',                  color: '#3194F7', bg: '#E3F0FE' },
+  management:   { label: 'Management',            color: '#3194F7', bg: '#E3F0FE' },
+  prompting:    { label: 'Prompting',              color: '#3194F7', bg: '#E3F0FE' },
+  innovation:   { label: 'Innovation',            color: '#3194F7', bg: '#E3F0FE' },
+  action:       { label: 'Action',                 color: '#FF7461', bg: '#FFECEA' },
+  engage:       { label: 'User Comm.',            color: '#1046A8', bg: '#E8EBF5' },
+  learning:     { label: 'Learning',                color: '#00B1A9', bg: '#D6F5F4' },
+  documentation:{ label: 'Docs',                    color: '#803795', bg: '#F3E8F7' },
+  operations:   { label: 'IT Operations',         color: '#0B1441', bg: '#DDE6EF' },
+  experience:   { label: 'Employee Experience',   color: '#00B1A9', bg: '#D6F5F4' },
+  change:       { label: 'Change & Deployment',   color: '#803795', bg: '#F3E8F7' },
+  vdi:          { label: 'VDI',                     color: '#3194F7', bg: '#E3F0FE' },
+  finops:       { label: 'FinOps & Green IT',     color: '#00B1A9', bg: '#D6F5F4' },
+  analytics:    { label: 'Analytics',              color: '#803795', bg: '#F3E8F7' },
+};
+const SECTION_META = {
+  start:         { label: 'Getting started',    color: '#3194F7', bg: '#E3F0FE' },
+  prompts:       { label: 'Prompt packs',       color: '#3194F7', bg: '#E3F0FE' },
+  investigation: { label: 'Deep investigation', color: '#803795', bg: '#F3E8F7' },
+  value:         { label: 'Business value',     color: '#1046A8', bg: '#E8EBF5' },
+  actions:       { label: 'Acting at scale',    color: '#0B1441', bg: '#DDE6EF' },
+  faq:           { label: 'FAQ',                color: '#00B1A9', bg: '#D6F5F4' },
+};
+
+function copyToClipboard(btn, text, meta) {
   navigator.clipboard.writeText(text).then(() => {
     btn.classList.add('copied');
     btn.innerHTML = '<i class="ti ti-check"></i> Copied';
@@ -1539,39 +1741,274 @@ function copyToClipboard(btn, text) {
       btn.classList.remove('copied');
       btn.innerHTML = '<i class="ti ti-copy"></i> Copy';
     }, 1800);
+    if (meta) pushRecent(meta);
   });
 }
 
-function makePromptCard(text, label) {
+// ── Stable anchor ids for deep-linking / sharing ─────────────────────────
+const _usedIds = new Set();
+function slugify(str) {
+  return String(str)
+    .toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-+|-+$)/g, '')
+    .slice(0, 60);
+}
+function uniqueId(prefix, base) {
+  let id = `${prefix}-${slugify(base)}`;
+  let i = 2;
+  while (_usedIds.has(id)) { id = `${prefix}-${slugify(base)}-${i}`; i++; }
+  _usedIds.add(id);
+  return id;
+}
+
+function copyLinkToCard(btn, id) {
+  const url = `${location.origin}${location.pathname}#${id}`;
+  navigator.clipboard.writeText(url).then(() => {
+    const original = btn.innerHTML;
+    btn.classList.add('copied');
+    btn.innerHTML = '<i class="ti ti-check"></i>';
+    btn.title = 'Link copied!';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = original;
+      btn.title = 'Copy link to this prompt';
+    }, 1800);
+  });
+}
+
+// ── Placeholder highlighting ([DEVICE_NAME], [SCOPE]…) — display only ───
+function renderPromptTextHtml(text) {
+  return escapeHtml(text).replace(/\[[^\]\n]{1,60}\]/g, m => `<span class="placeholder-tag">${m}</span>`);
+}
+
+// ── Favorites (persisted in this browser via localStorage) ──────────────
+const FAV_KEY = 'nxWorkspacePlaybook.favorites';
+const REC_KEY = 'nxWorkspacePlaybook.recentlyCopied';
+
+function safeLoad(key) {
+  try { return JSON.parse(localStorage.getItem(key) || '[]'); } catch (e) { return []; }
+}
+function safeSave(key, arr) {
+  try { localStorage.setItem(key, JSON.stringify(arr)); } catch (e) { /* storage unavailable — fail silently */ }
+}
+function getFavorites() { return safeLoad(FAV_KEY); }
+function isFavorited(id) { return getFavorites().some(f => f.id === id); }
+
+function toggleFavorite(btn, meta) {
+  let favs = getFavorites();
+  const idx = favs.findIndex(f => f.id === meta.id);
+  if (idx >= 0) {
+    favs.splice(idx, 1);
+    btn.classList.remove('favorited');
+    btn.title = 'Add to favorites';
+  } else {
+    favs.unshift(meta);
+    btn.classList.add('favorited');
+    btn.title = 'Remove from favorites';
+  }
+  safeSave(FAV_KEY, favs);
+  updateFavoritesBadge();
+  renderFavorites();
+}
+
+function updateFavoritesBadge() {
+  const badge = document.getElementById('fav-count-badge');
+  if (!badge) return;
+  const n = getFavorites().length;
+  badge.textContent = n;
+  badge.classList.toggle('empty', n === 0);
+}
+
+function renderFavorites() {
+  const c = document.getElementById('favorites-list');
+  if (!c) return;
+  const favs = getFavorites();
+  c.innerHTML = '';
+  if (favs.length === 0) {
+    c.innerHTML = `
+      <div class="no-results-msg">
+        <i class="ti ti-star"></i>
+        <p>No favorites yet</p>
+        <p style="font-size:12px;margin-top:0.5rem;color:var(--color-text-tertiary)">Click the star on any prompt to save it here.</p>
+      </div>`;
+    return;
+  }
+  favs.forEach(meta => {
+    const card = document.createElement('div');
+    card.className = 'prompt-card';
+    card.id = `fav-${meta.id}`;
+
+    const tag = document.createElement('span');
+    tag.className = 'fav-source-tag';
+    tag.style.cssText = `color:${meta.tagColor};background:${meta.tagBg};border:1px solid ${meta.tagColor}33;`;
+    tag.innerHTML = `<i class="ti ti-tag" style="font-size:10px;"></i> ${escapeHtml(meta.tag)}`;
+    card.appendChild(tag);
+
+    const head = document.createElement('div');
+    head.className = 'prompt-card-head';
+    if (meta.label) {
+      const l = document.createElement('div');
+      l.className = 'plabel';
+      l.textContent = meta.label;
+      head.appendChild(l);
+    } else {
+      head.appendChild(document.createElement('span'));
+    }
+    head.appendChild(buildCardActions(meta));
+    card.appendChild(head);
+
+    const pre = document.createElement('div');
+    pre.className = 'prompt-text';
+    pre.innerHTML = renderPromptTextHtml(meta.text);
+    card.appendChild(pre);
+
+    card.style.cursor = 'pointer';
+    card.title = 'Go to this prompt';
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('.card-actions')) return;
+      navigateToAnchor(meta.id);
+    });
+
+    c.appendChild(card);
+  });
+}
+
+// ── Recently copied (persisted in this browser via localStorage) ────────
+function pushRecent(meta) {
+  let recents = safeLoad(REC_KEY);
+  recents = recents.filter(r => r.id !== meta.id);
+  recents.unshift(meta);
+  recents = recents.slice(0, 8);
+  safeSave(REC_KEY, recents);
+  renderRecents();
+}
+function removeRecent(id) {
+  let recents = safeLoad(REC_KEY).filter(r => r.id !== id);
+  safeSave(REC_KEY, recents);
+  renderRecents();
+}
+function clearRecents() {
+  safeSave(REC_KEY, []);
+  renderRecents();
+}
+function renderRecents() {
+  const c = document.getElementById('recent-copies-list');
+  if (!c) return;
+  const recents = safeLoad(REC_KEY);
+  c.innerHTML = '';
+  if (recents.length === 0) {
+    c.innerHTML = '<p class="recent-empty">Prompts you copy will show up here for quick access.</p>';
+    return;
+  }
+  recents.forEach(meta => {
+    const chip = document.createElement('span');
+    chip.className = 'recent-chip';
+    chip.innerHTML = `<i class="ti ti-tag" style="font-size:10px;color:${meta.tagColor}"></i> ${escapeHtml(meta.label || meta.tag)}`;
+    chip.onclick = () => navigateToAnchor(meta.id);
+    const rm = document.createElement('button');
+    rm.className = 'remove-chip';
+    rm.innerHTML = '<i class="ti ti-x"></i>';
+    rm.title = 'Remove from history';
+    rm.onclick = (e) => { e.stopPropagation(); removeRecent(meta.id); };
+    chip.appendChild(rm);
+    c.appendChild(chip);
+  });
+  const clearBtn = document.createElement('button');
+  clearBtn.className = 'expand-btn';
+  clearBtn.textContent = 'Clear history';
+  clearBtn.onclick = clearRecents;
+  c.appendChild(clearBtn);
+}
+
+// ── QR code modal (for sharing a prompt link visually, e.g. in a workshop) ─
+function showQrModal(url) {
+  document.getElementById('qr-image').src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}`;
+  document.getElementById('qr-url-text').textContent = url;
+  document.getElementById('qr-overlay').classList.add('open');
+}
+function closeQrModal() {
+  document.getElementById('qr-overlay').classList.remove('open');
+}
+
+// ── Card actions row: favorite (star) + share link + QR + copy ──────────
+function buildCardActions(meta) {
+  const actions = document.createElement('div');
+  actions.className = 'card-actions';
+
+  const starBtn = document.createElement('button');
+  starBtn.className = 'star-btn';
+  const favored = isFavorited(meta.id);
+  if (favored) starBtn.classList.add('favorited');
+  starBtn.title = favored ? 'Remove from favorites' : 'Add to favorites';
+  starBtn.innerHTML = '<i class="ti ti-star"></i>';
+  starBtn.onclick = (e) => { e.stopPropagation(); toggleFavorite(starBtn, meta); };
+  actions.appendChild(starBtn);
+
+  const linkBtn = document.createElement('button');
+  linkBtn.className = 'link-btn';
+  linkBtn.title = 'Copy link to this prompt';
+  linkBtn.innerHTML = '<i class="ti ti-link"></i>';
+  linkBtn.onclick = (e) => { e.stopPropagation(); copyLinkToCard(linkBtn, meta.id); };
+  actions.appendChild(linkBtn);
+
+  const qrBtn = document.createElement('button');
+  qrBtn.className = 'qr-btn';
+  qrBtn.title = 'Show QR code for this prompt';
+  qrBtn.innerHTML = '<i class="ti ti-qrcode"></i>';
+  qrBtn.onclick = (e) => { e.stopPropagation(); showQrModal(`${location.origin}${location.pathname}#${meta.id}`); };
+  actions.appendChild(qrBtn);
+
+  const copyBtn = document.createElement('button');
+  copyBtn.className = 'copy-btn';
+  copyBtn.innerHTML = '<i class="ti ti-copy"></i> Copy';
+  copyBtn.onclick = (e) => { e.stopPropagation(); copyToClipboard(copyBtn, meta.text, meta); };
+  actions.appendChild(copyBtn);
+
+  return actions;
+}
+
+function makePromptCard(text, label, idPrefix, sectionKey, tagOverride) {
   const d = document.createElement('div');
   d.className = 'prompt-card';
+  d.id = uniqueId(idPrefix || 'p', label || text);
+
+  const sMeta = SECTION_META[sectionKey] || SECTION_META.start;
+  const tag = tagOverride || sMeta.label;
+  const meta = { id: d.id, label: label || '', text, section: sectionKey, tag, tagColor: sMeta.color, tagBg: sMeta.bg };
+
+  const head = document.createElement('div');
+  head.className = 'prompt-card-head';
   if (label) {
     const l = document.createElement('div');
     l.className = 'plabel';
     l.textContent = label;
-    d.appendChild(l);
+    head.appendChild(l);
+  } else {
+    head.appendChild(document.createElement('span'));
   }
+  head.appendChild(buildCardActions(meta));
+  d.appendChild(head);
+
   const pre = document.createElement('div');
   pre.className = 'prompt-text';
-  pre.textContent = text;
+  pre.innerHTML = renderPromptTextHtml(text);
   d.appendChild(pre);
-  const btn = document.createElement('button');
-  btn.className = 'copy-btn';
-  btn.innerHTML = '<i class="ti ti-copy"></i> Copy';
-  btn.onclick = (e) => { e.stopPropagation(); copyToClipboard(btn, text); };
-  d.appendChild(btn);
+
   return d;
 }
 
 function renderStarter() {
   const c = document.getElementById('starter-prompts');
-  starterPrompts.forEach(p => c.appendChild(makePromptCard(p.text, p.label)));
+  starterPrompts.forEach(p => c.appendChild(makePromptCard(p.text, p.label, 'start', 'start')));
 }
 
 function renderPromptPacks() {
   const c = document.getElementById('prompt-pack-list');
   promptPacks.forEach(p => {
-    const el = makePromptCard(p.text, p.label);
+    const catMeta = CATEGORY_META[p.category] || CATEGORY_META.performance;
+    const el = makePromptCard(p.text, p.label, 'pp', 'prompts', catMeta.label);
     el.dataset.cat = p.category;
     c.appendChild(el);
   });
@@ -1599,7 +2036,7 @@ function renderInvestigation() {
     `;
     const body = document.createElement('div');
     body.className = 'phase-body';
-    ph.prompts.forEach(pp => body.appendChild(makePromptCard(pp.text, pp.sub)));
+    ph.prompts.forEach(pp => body.appendChild(makePromptCard(pp.text, pp.sub, 'inv', 'investigation', 'Deep investigation')));
     hdr.onclick = () => {
       const isOpen = body.classList.contains('open');
       body.classList.toggle('open', !isOpen);
@@ -1611,7 +2048,7 @@ function renderInvestigation() {
   });
 
   const qc = document.getElementById('quick-diag');
-  quickDiag.forEach(p => qc.appendChild(makePromptCard(p.text, p.label)));
+  quickDiag.forEach(p => qc.appendChild(makePromptCard(p.text, p.label, 'qd', 'investigation', 'Quick diagnostic')));
 }
 
 function renderValue() {
@@ -1619,6 +2056,7 @@ function renderValue() {
   valueItems.forEach(v => {
     const card = document.createElement('div');
     card.className = 'value-card';
+    card.id = uniqueId('val', v.title);
     card.innerHTML = `
       <div class="value-card-header">
         <div class="value-icon" style="background:${v.bg}">
@@ -1632,17 +2070,16 @@ function renderValue() {
       <button class="expand-btn"><i class="ti ti-chevron-right" style="font-size:14px;"></i> Show prompt</button>
       <div class="collapsible"></div>
     `;
+    const meta = { id: card.id, label: v.title, text: v.text, section: 'value', tag: 'Business value', tagColor: SECTION_META.value.color, tagBg: SECTION_META.value.bg };
     const promptEl = card.querySelector('.collapsible');
+    const actionsRow = document.createElement('div');
+    actionsRow.style.cssText = 'display:flex;justify-content:flex-end;margin-bottom:8px;';
+    actionsRow.appendChild(buildCardActions(meta));
     const promptText = document.createElement('div');
     promptText.className = 'prompt-text';
-    promptText.textContent = v.text;
-    const copyBtn = document.createElement('button');
-    copyBtn.className = 'copy-btn';
-    copyBtn.style.cssText = 'position:absolute;top:8px;right:8px;';
-    copyBtn.innerHTML = '<i class="ti ti-copy"></i> Copy';
-    copyBtn.onclick = () => copyToClipboard(copyBtn, v.text);
+    promptText.innerHTML = renderPromptTextHtml(v.text);
+    promptEl.appendChild(actionsRow);
     promptEl.appendChild(promptText);
-    promptEl.appendChild(copyBtn);
     const expandBtn = card.querySelector('.expand-btn');
     expandBtn.onclick = () => {
       const open = promptEl.classList.toggle('open');
@@ -1656,7 +2093,7 @@ function renderValue() {
 
 function renderActions() {
   const c = document.getElementById('actions-content');
-  actionsContent.forEach(a => c.appendChild(makePromptCard(a.text, a.label)));
+  actionsContent.forEach(a => c.appendChild(makePromptCard(a.text, a.label, 'act', 'actions', 'Acting at scale')));
 }
 
 function showSection(id, btn) {
@@ -1675,6 +2112,70 @@ function showSection(id, btn) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+// ── DEEP-LINKING: navigate to a shared prompt anchor ─────────────────────
+function navigateToAnchor(id) {
+  if (!id) return;
+  const el = document.getElementById(id);
+  if (!el) return;
+
+  const hostSection = el.closest('.section');
+  if (hostSection) {
+    const sectionId = hostSection.id.replace('section-', '');
+    const navBtn = document.querySelector(`.nav-btn[data-section="${sectionId}"]`);
+    showSection(sectionId, navBtn);
+
+    if (sectionId === 'prompts') {
+      const cat = el.dataset.cat;
+      const filterBtns = [...document.querySelectorAll('.filter-strip .filter-btn')];
+      const targetBtn = filterBtns.find(b => b.getAttribute('onclick') === `filterPrompts('${cat}', this)`);
+      filterPrompts('all', filterBtns[0]);
+      if (targetBtn) filterPrompts(cat, targetBtn);
+    }
+  }
+
+  // Expand any accordion ancestor (investigation phases / FAQ items)
+  const phaseBody = el.closest('.phase-body');
+  if (phaseBody) {
+    phaseBody.classList.add('open');
+    const hdr = phaseBody.previousElementSibling;
+    if (hdr && hdr.classList.contains('phase-header')) hdr.classList.add('expanded');
+  }
+  // The anchor may itself be the phase-wrap container (FAQ items) — expand its own body
+  if (el.classList.contains('phase-wrap')) {
+    const ownBody = el.querySelector('.phase-body');
+    const ownHdr = el.querySelector('.phase-header');
+    if (ownBody) ownBody.classList.add('open');
+    if (ownHdr) ownHdr.classList.add('expanded');
+  }
+
+  // Expand value-card collapsible if needed
+  const collapsible = el.closest('.collapsible');
+  if (collapsible) {
+    collapsible.classList.add('open');
+    const expandBtn = collapsible.previousElementSibling;
+    if (expandBtn && expandBtn.classList.contains('expand-btn')) {
+      expandBtn.innerHTML = '<i class="ti ti-chevron-down" style="font-size:14px;"></i> Hide prompt';
+    }
+  }
+  // The anchor may itself be the value-card container — expand its own collapsible
+  if (el.classList.contains('value-card')) {
+    const ownColl = el.querySelector('.collapsible');
+    const ownExpandBtn = el.querySelector('.expand-btn');
+    if (ownColl) ownColl.classList.add('open');
+    if (ownExpandBtn) ownExpandBtn.innerHTML = '<i class="ti ti-chevron-down" style="font-size:14px;"></i> Hide prompt';
+  }
+
+  setTimeout(() => {
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    el.classList.add('highlight-pulse');
+    setTimeout(() => el.classList.remove('highlight-pulse'), 3000);
+  }, 60);
+}
+
+window.addEventListener('hashchange', () => navigateToAnchor(decodeURIComponent(location.hash.slice(1))));
+
+
+
 
 // ── GLOBAL SEARCH ────────────────────────────────────────────────────────
 
@@ -1688,6 +2189,7 @@ function collectAllPrompts() {
     const textEl  = cardEl.querySelector('.prompt-text');
     if (!textEl) return null;
     return {
+      id: cardEl.id || '',
       label: labelEl ? labelEl.textContent.trim() : '',
       text:  textEl.textContent.trim(),
       section, tag, tagColor, tagBg,
@@ -1696,47 +2198,15 @@ function collectAllPrompts() {
 
   // Getting started
   document.querySelectorAll('#starter-prompts .prompt-card').forEach(c => {
-    const e = cardEntry(c, 'start', 'Getting started', '#3194F7', '#E3F0FE');
+    const e = cardEntry(c, 'start', SECTION_META.start.label, SECTION_META.start.color, SECTION_META.start.bg);
     if (e) all.push(e);
   });
 
   // Prompt packs
   document.querySelectorAll('#prompt-pack-list .prompt-card').forEach(c => {
     const cat = c.dataset.cat || '';
-const catLabel = {
-  monitoring: 'Monitoring',
-  patching: 'Patching',
-  security: 'Security',
-  optimization: 'Optimization',
-  performance: 'Performance',
-  targeting: 'Targeting',
-  usage: 'Usage',
-  management: 'Management',
-  prompting: 'Prompting',
-  innovation: 'Innovation',
-  action: 'Action',
-  engage: 'User Comm.',
-  learning: 'Learning',
-  documentation: 'Docs',
-  operations: 'IT Operations',
-  experience: 'Employee Experience',
-  change: 'Change & Deployment',
-  vdi: 'VDI',
-  finops: 'FinOps & Green IT',
-  analytics: 'Analytics'
-}[cat] || 'Prompt packs';
-    const colors = {
-      monitoring: ['#3194F7','#E3F0FE'], patching: ['#00B1A9','#D6F5F4'],
-      security: ['#FF7461','#FFECEA'],
-      optimization: ['#803795','#F3E8F7'], action: ['#FF7461','#FFECEA'],
-      engage: ['#1046A8','#E8EBF5'], learning: ['#00B1A9','#D6F5F4'],
-      documentation: ['#803795','#F3E8F7'],
-      operations: ['#0B1441','#DDE6EF'], experience: ['#00B1A9','#D6F5F4'],
-      change: ['#803795','#F3E8F7'], vdi: ['#3194F7','#E3F0FE'],
-      finops: ['#00B1A9','#D6F5F4'], analytics: ['#803795','#F3E8F7'],
-    };
-    const [tc, bg] = colors[cat] || ['#3194F7','#E3F0FE'];
-    const e = cardEntry(c, 'prompts', catLabel, tc, bg);
+    const meta = CATEGORY_META[cat] || { label: 'Prompt packs', color: '#3194F7', bg: '#E3F0FE' };
+    const e = cardEntry(c, 'prompts', meta.label, meta.color, meta.bg);
     if (e) all.push(e);
   });
 
@@ -1752,13 +2222,15 @@ const catLabel = {
   });
 
   // Business value
-  document.querySelectorAll('#value-cards .collapsible .prompt-text').forEach(textEl => {
-    const valueCard = textEl.closest('.value-card');
-    const titleEl = valueCard ? valueCard.querySelector('h3') : null;
+  document.querySelectorAll('#value-cards .value-card').forEach(valueCard => {
+    const textEl = valueCard.querySelector('.collapsible .prompt-text');
+    const titleEl = valueCard.querySelector('h3');
+    if (!textEl) return;
     all.push({
+      id: valueCard.id || '',
       label: titleEl ? titleEl.textContent.trim() : 'Value prompt',
       text: textEl.textContent.trim(),
-      section: 'value', tag: 'Business value', tagColor: '#1046A8', tagBg: '#E3F0FE',
+      section: 'value', tag: SECTION_META.value.label, tagColor: SECTION_META.value.color, tagBg: SECTION_META.value.bg,
     });
   });
 
@@ -1863,12 +2335,20 @@ function handleSearch(query) {
     tag.innerHTML = `<i class="ti ti-tag" style="font-size:10px;"></i> ${escapeHtml(p.tag)}`;
     card.appendChild(tag);
 
+    const head = document.createElement('div');
+    head.className = 'prompt-card-head';
     if (p.label) {
       const lbl = document.createElement('div');
       lbl.className = 'plabel';
       lbl.innerHTML = highlight(p.label, q);
-      card.appendChild(lbl);
+      head.appendChild(lbl);
+    } else {
+      head.appendChild(document.createElement('span'));
     }
+    if (p.id) {
+      head.appendChild(buildCardActions({ id: p.id, label: p.label, text: p.text, section: p.section, tag: p.tag, tagColor: p.tagColor, tagBg: p.tagBg }));
+    }
+    card.appendChild(head);
 
     const pre = document.createElement('div');
     pre.className = 'prompt-text';
@@ -1877,31 +2357,25 @@ function handleSearch(query) {
     pre.innerHTML = highlight(snippet, q);
     card.appendChild(pre);
 
-    // Copy button
-    const btn = document.createElement('button');
-    btn.className = 'copy-btn';
-    btn.innerHTML = '<i class="ti ti-copy"></i> Copy';
-    btn.onclick = e => { e.stopPropagation(); copyToClipboard(btn, p.text); };
-    card.appendChild(btn);
+    if (!p.id) {
+      // Fallback for any result without a stable id (shouldn't normally happen)
+      const btn = document.createElement('button');
+      btn.className = 'copy-btn';
+      btn.innerHTML = '<i class="ti ti-copy"></i> Copy';
+      btn.onclick = e => { e.stopPropagation(); copyToClipboard(btn, p.text); };
+      card.appendChild(btn);
+    }
 
-    // Click on card → navigate to source section
+    // Click on card → jump straight to the canonical prompt (opens its tab/accordion, scrolls, highlights)
     card.title = `Go to: ${sectionNames[p.section] || p.section}`;
     card.onclick = (e) => {
-      if (e.target.closest('.copy-btn')) return;
+      if (e.target.closest('.card-actions')) return;
       clearSearch();
-      const targetBtn = [...document.querySelectorAll('.nav-strip .nav-btn')]
-        .find(b => b.textContent.toLowerCase().includes((sectionNames[p.section]||'').toLowerCase().split(' ')[0]));
-      showSection(p.section, targetBtn || document.querySelector('.nav-strip .nav-btn'));
-      // Open relevant accordions if needed
-      if (p.section === 'investigation') {
-        document.querySelectorAll('#investigation-phases .phase-body').forEach(b => b.classList.add('open'));
-        document.querySelectorAll('#investigation-phases .phase-header').forEach(h => h.classList.add('expanded'));
-      }
-      if (p.section === 'value') {
-        document.querySelectorAll('#value-cards .collapsible').forEach(b => b.classList.add('open'));
-        document.querySelectorAll('#value-cards .expand-btn').forEach(b => {
-          b.innerHTML = '<i class="ti ti-chevron-down" style="font-size:14px;"></i> Hide prompt';
-        });
+      if (p.id) {
+        navigateToAnchor(p.id);
+      } else {
+        const targetBtn = document.querySelector(`.nav-btn[data-section="${p.section}"]`);
+        showSection(p.section, targetBtn || document.querySelector('.nav-strip .nav-btn'));
       }
     };
 
@@ -1916,11 +2390,28 @@ function clearSearch() {
   input.focus();
 }
 
+function upgradeStaticCard(id, label, sectionKey) {
+  const card = document.getElementById(id);
+  if (!card) return;
+  const textEl = card.querySelector('.prompt-text');
+  if (!textEl) return;
+  const text = textEl.textContent.trim();
+  const sMeta = SECTION_META[sectionKey] || SECTION_META.faq;
+  const meta = { id, label, text, section: sectionKey, tag: sMeta.label, tagColor: sMeta.color, tagBg: sMeta.bg };
+  const head = document.createElement('div');
+  head.className = 'prompt-card-head';
+  const lbl = card.querySelector('.plabel');
+  if (lbl) head.appendChild(lbl); else head.appendChild(document.createElement('span'));
+  head.appendChild(buildCardActions(meta));
+  card.insertBefore(head, textEl);
+}
+
 renderStarter();
 renderPromptPacks();
 renderInvestigation();
 renderValue();
 renderActions();
+upgradeStaticCard('faq-automation-ready-prompt', 'Automation-ready prompt', 'faq');
 
 // FAQ toggle behavior
 document.querySelectorAll('#section-faq .phase-header').forEach(header => {
@@ -1932,9 +2423,27 @@ document.querySelectorAll('#section-faq .phase-header').forEach(header => {
   });
 });
 
+renderFavorites();
+updateFavoritesBadge();
+renderRecents();
+
+// Deep-link to a shared prompt on first load, if the URL carries an anchor
+if (location.hash) {
+  navigateToAnchor(decodeURIComponent(location.hash.slice(1)));
+}
+
 </script>
 <footer class="page-footer">
   created by Christophe Gagin - Nexthink | last updated on 23.07.2026
 </footer>
+
+<div class="qr-overlay" id="qr-overlay" onclick="if(event.target===this) closeQrModal()">
+  <div class="qr-modal">
+    <img id="qr-image" src="" alt="QR code linking to this prompt">
+    <div class="qr-url" id="qr-url-text"></div>
+    <button class="qr-close" onclick="closeQrModal()">Close</button>
+  </div>
+</div>
+
 </body>
 </html>
