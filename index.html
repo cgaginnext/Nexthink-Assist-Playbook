@@ -538,7 +538,6 @@
     text-align: center;
     box-shadow: 0 10px 40px rgba(0,0,0,0.35);
   }
-  .qr-modal img { width: 200px; height: 200px; border-radius: 8px; border: 1px solid var(--color-border); margin-bottom: 0.85rem; background:#fff; }
   .qr-modal .qr-url {
     font-size: 11px;
     word-break: break-all;
@@ -881,6 +880,16 @@
     color: #fff; background: var(--nx-blue); border: 0; border-radius: var(--radius-md); cursor: pointer;
   }
   .cta-btn:hover { background: var(--nx-blue-dark); }
+
+
+  /* ============================================================ LEGAL FOOTER */
+  .footer-legal { max-width: 640px; margin: 0.9rem auto 0; text-align: left; font-size: 11px; line-height: 1.6; color: var(--color-text-tertiary); }
+  .footer-legal p + p { margin-top: 0.4rem; }
+  .footer-legal strong { color: var(--color-text-secondary); font-weight: 600; }
+  .footer-legal a { color: var(--nx-blue-dark); }
+  @media (prefers-color-scheme: dark) { .footer-legal a { color: #7EC8FF; } }
+  .qr-modal .qr-svg { width: 200px; height: 200px; margin: 0 auto 0.85rem; border-radius: 8px; border: 1px solid var(--color-border); background: #fff; overflow: hidden; }
+  .qr-modal .qr-svg svg { display: block; width: 100%; height: 100%; }
 
   @media print {
     body { background: #fff; }
@@ -2320,8 +2329,154 @@ function renderRecents() {
 }
 
 // ── QR code modal (for sharing a prompt link visually, e.g. in a workshop) ─
+// ── Local QR code generator (byte mode, error correction M, versions 1-15). No network calls. ──
+const QR = (() => {
+  const EXP = new Array(512), LOG = new Array(256);
+  let v = 1;
+  for (let i = 0; i < 255; i++) { EXP[i] = v; LOG[v] = i; v <<= 1; if (v & 256) v ^= 0x11d; }
+  for (let i = 255; i < 512; i++) EXP[i] = EXP[i - 255];
+  const mul = (a, b) => (a && b) ? EXP[LOG[a] + LOG[b]] : 0;
+  function generator(n) {
+    let g = [1];
+    for (let i = 0; i < n; i++) {
+      const ng = new Array(g.length + 1).fill(0);
+      for (let j = 0; j < g.length; j++) { ng[j] ^= g[j]; ng[j + 1] ^= mul(g[j], EXP[i]); }
+      g = ng;
+    }
+    return g;
+  }
+  function remainder(data, n) {
+    const g = generator(n), r = new Array(n).fill(0);
+    for (const b of data) {
+      const f = b ^ r.shift(); r.push(0);
+      if (f) for (let i = 0; i < n; i++) r[i] ^= mul(g[i + 1], f);
+    }
+    return r;
+  }
+  // version: [EC codewords per block, [[blocks, data codewords per block], ...]]  (level M)
+  const BLOCKS = {
+    1: [10, [[1, 16]]], 2: [16, [[1, 28]]], 3: [26, [[1, 44]]], 4: [18, [[2, 32]]], 5: [24, [[2, 43]]],
+    6: [16, [[4, 27]]], 7: [18, [[4, 31]]], 8: [22, [[2, 38], [2, 39]]], 9: [22, [[3, 36], [2, 37]]],
+    10: [26, [[4, 43], [1, 44]]], 11: [30, [[1, 50], [4, 51]]], 12: [22, [[6, 36], [2, 37]]],
+    13: [22, [[8, 37], [1, 38]]], 14: [24, [[4, 40], [5, 41]]], 15: [24, [[5, 41], [5, 42]]]
+  };
+  const ALIGN = { 2: [6, 18], 3: [6, 22], 4: [6, 26], 5: [6, 30], 6: [6, 34], 7: [6, 22, 38], 8: [6, 24, 42],
+    9: [6, 26, 46], 10: [6, 28, 50], 11: [6, 30, 54], 12: [6, 32, 58], 13: [6, 34, 62], 14: [6, 26, 46, 66], 15: [6, 26, 48, 70] };
+  const dataCap = ver => BLOCKS[ver][1].reduce((a, [n, d]) => a + n * d, 0);
+
+  function codewords(bytes, ver) {
+    const bits = [];
+    const push = (val, len) => { for (let i = len - 1; i >= 0; i--) bits.push((val >>> i) & 1); };
+    push(4, 4); push(bytes.length, ver < 10 ? 8 : 16);
+    bytes.forEach(b => push(b, 8));
+    const cap = dataCap(ver) * 8;
+    push(0, Math.min(4, cap - bits.length));
+    while (bits.length % 8) bits.push(0);
+    for (let pad = 0xEC; bits.length < cap; pad ^= 0xEC ^ 0x11) push(pad, 8);
+    const data = [];
+    for (let i = 0; i < bits.length; i += 8) data.push(parseInt(bits.slice(i, i + 8).join(''), 2));
+    const [ecLen, groups] = BLOCKS[ver];
+    const blocks = []; let pos = 0;
+    groups.forEach(([n, d]) => { for (let i = 0; i < n; i++) { blocks.push(data.slice(pos, pos + d)); pos += d; } });
+    const ecs = blocks.map(b => remainder(b, ecLen));
+    const out = [];
+    const maxD = Math.max(...blocks.map(b => b.length));
+    for (let i = 0; i < maxD; i++) blocks.forEach(b => { if (i < b.length) out.push(b[i]); });
+    for (let i = 0; i < ecLen; i++) ecs.forEach(e => out.push(e[i]));
+    return out;
+  }
+
+  const MASKS = [
+    (x, y) => (x + y) % 2 === 0, (x, y) => y % 2 === 0, (x, y) => x % 3 === 0, (x, y) => (x + y) % 3 === 0,
+    (x, y) => (Math.floor(x / 3) + Math.floor(y / 2)) % 2 === 0, (x, y) => (x * y) % 2 + (x * y) % 3 === 0,
+    (x, y) => ((x * y) % 2 + (x * y) % 3) % 2 === 0, (x, y) => ((x + y) % 2 + (x * y) % 3) % 2 === 0
+  ];
+
+  function penalty(m) {
+    const n = m.length; let p = 0;
+    const lines = [];
+    for (let y = 0; y < n; y++) lines.push(m[y].map(Number).join(''));
+    for (let x = 0; x < n; x++) lines.push(m.map(r => Number(r[x])).join(''));
+    lines.forEach(l => {
+      (l.match(/0{5,}|1{5,}/g) || []).forEach(run => { p += run.length - 2; });
+      p += 40 * ((l.match(/(?=10111010000)/g) || []).length + (l.match(/(?=00001011101)/g) || []).length);
+    });
+    for (let y = 0; y < n - 1; y++) for (let x = 0; x < n - 1; x++) {
+      const c = m[y][x]; if (c === m[y][x + 1] && c === m[y + 1][x] && c === m[y + 1][x + 1]) p += 3;
+    }
+    const dark = m.reduce((a, r) => a + r.filter(Boolean).length, 0);
+    p += Math.floor(Math.abs(dark * 20 - n * n * 10) / (n * n)) * 10;
+    return p;
+  }
+
+  function encode(text, forceMask) {
+    const bytes = Array.from(new TextEncoder().encode(text));
+    let ver = 1;
+    while (ver <= 15 && 4 + (ver < 10 ? 8 : 16) + bytes.length * 8 > dataCap(ver) * 8) ver++;
+    if (ver > 15) throw new Error('QR: text too long');
+    const size = 17 + 4 * ver;
+    const mod = Array.from({ length: size }, () => new Array(size).fill(false));
+    const fn = Array.from({ length: size }, () => new Array(size).fill(false));
+    const setFn = (x, y, dark) => { if (x >= 0 && y >= 0 && x < size && y < size) { mod[y][x] = dark; fn[y][x] = true; } };
+    for (let i = 0; i < size; i++) { setFn(6, i, i % 2 === 0); setFn(i, 6, i % 2 === 0); }
+    const finder = (cx, cy) => { for (let dy = -4; dy <= 4; dy++) for (let dx = -4; dx <= 4; dx++) { const d = Math.max(Math.abs(dx), Math.abs(dy)); setFn(cx + dx, cy + dy, d !== 2 && d !== 4); } };
+    finder(3, 3); finder(size - 4, 3); finder(3, size - 4);
+    if (ALIGN[ver]) {
+      const p = ALIGN[ver], last = p.length - 1;
+      p.forEach((cx, i) => p.forEach((cy, j) => {
+        if ((i === 0 && j === 0) || (i === 0 && j === last) || (i === last && j === 0)) return;
+        for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) setFn(cx + dx, cy + dy, Math.max(Math.abs(dx), Math.abs(dy)) !== 1);
+      }));
+    }
+    const formatBits = mask => {
+      const data = (0 << 3) | mask; // level M = 00
+      let rem = data; for (let i = 0; i < 10; i++) rem = (rem << 1) ^ ((rem >>> 9) * 0x537);
+      const bits = ((data << 10) | rem) ^ 0x5412, bit = i => ((bits >>> i) & 1) !== 0;
+      for (let i = 0; i <= 5; i++) setFn(8, i, bit(i));
+      setFn(8, 7, bit(6)); setFn(8, 8, bit(7)); setFn(7, 8, bit(8));
+      for (let i = 9; i < 15; i++) setFn(14 - i, 8, bit(i));
+      for (let i = 0; i < 8; i++) setFn(size - 1 - i, 8, bit(i));
+      for (let i = 8; i < 15; i++) setFn(8, size - 15 + i, bit(i));
+      setFn(8, size - 8, true);
+    };
+    formatBits(0);
+    if (ver >= 7) {
+      let rem = ver; for (let i = 0; i < 12; i++) rem = (rem << 1) ^ ((rem >>> 11) * 0x1F25);
+      const bits = (ver << 12) | rem;
+      for (let i = 0; i < 18; i++) { const b = ((bits >>> i) & 1) !== 0, a = size - 11 + (i % 3), c = Math.floor(i / 3); setFn(a, c, b); setFn(c, a, b); }
+    }
+    const cw = codewords(bytes, ver);
+    let k = 0;
+    for (let right = size - 1; right >= 1; right -= 2) {
+      if (right === 6) right = 5;
+      for (let vert = 0; vert < size; vert++) for (let j = 0; j < 2; j++) {
+        const x = right - j, y = ((right + 1) & 2) === 0 ? size - 1 - vert : vert;
+        if (!fn[y][x] && k < cw.length * 8) { mod[y][x] = ((cw[k >>> 3] >>> (7 - (k & 7))) & 1) !== 0; k++; }
+      }
+    }
+    const applyMask = mask => { for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) if (!fn[y][x] && MASKS[mask](x, y)) mod[y][x] = !mod[y][x]; };
+    let best = 0, bestScore = Infinity;
+    if (forceMask !== undefined) best = forceMask;
+    else for (let mask = 0; mask < 8; mask++) {
+      applyMask(mask); formatBits(mask);
+      const sc = penalty(mod); if (sc < bestScore) { bestScore = sc; best = mask; }
+      applyMask(mask);
+    }
+    applyMask(best); formatBits(best);
+    return mod;
+  }
+  function svg(text) {
+    const m = encode(text), n = m.length, q = 4; let d = '';
+    for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) if (m[y][x]) d += `M${x + q},${y + q}h1v1h-1z`;
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${n + 2 * q} ${n + 2 * q}" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="${d}" fill="#000"/></svg>`;
+  }
+  return { encode, svg };
+})();
+
 function showQrModal(url) {
-  document.getElementById('qr-image').src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}`;
+  const box = document.getElementById('qr-image');
+  try { box.innerHTML = QR.svg(url); box.style.display = ''; }
+  catch (e) { box.innerHTML = ''; box.style.display = 'none'; }
   document.getElementById('qr-url-text').textContent = url;
   document.getElementById('qr-overlay').classList.add('open');
 }
@@ -3697,12 +3852,17 @@ if (location.hash) {
 
 </script>
 <footer class="page-footer">
-  created by Christophe Gagin - Nexthink | last updated on 30.09.2026
+  <p>created by Christophe Gagin - Nexthink | last updated on 30.09.2026</p>
+  <div class="footer-legal">
+    <p><strong>Disclaimer.</strong> This playbook is community-driven and is not officially maintained by Nexthink. Prompts are provided as-is. AI-generated answers can vary, so review and verify results before acting on them. Nexthink features evolve: see <a href="https://docs.nexthink.com" target="_blank" rel="noopener noreferrer">docs.nexthink.com</a> for current product documentation.</p>
+    <p><strong>Trademarks.</strong> Nexthink and Nexthink product names (including Assist, Spark, Infinity and Workspace) are trademarks or product names of Nexthink. All other product and company names are trademarks of their respective owners and are used only to identify them.</p>
+    <p><strong>Licence.</strong> You may copy and adapt the prompts for your own use. Please do not republish this playbook as a whole without permission.</p>
+  </div>
 </footer>
 
 <div class="qr-overlay" id="qr-overlay" onclick="if(event.target===this) closeQrModal()">
   <div class="qr-modal">
-    <img id="qr-image" src="" alt="QR code linking to this prompt">
+    <div id="qr-image" class="qr-svg" role="img" aria-label="QR code linking to this prompt"></div>
     <div class="qr-url" id="qr-url-text"></div>
     <button class="qr-close" onclick="closeQrModal()">Close</button>
   </div>
