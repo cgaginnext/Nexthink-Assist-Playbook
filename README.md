@@ -71,10 +71,12 @@ Together, they allow IT teams to move from reactive troubleshooting to proactive
 
 ## 📘 What’s inside
 
-- ✅ Prompt packs across 19 categories: monitoring, performance, security, patching, optimization, automation, IT operations & reliability, employee experience, change & deployment, VDI, FinOps & Green IT, analytics, and more
-- ✅ Deep investigation framework (7 phases)
-- ✅ Business value templates
-- ✅ Automation & Remote Actions guidance
+- ✅ **Prompt packs** across 19 categories: monitoring, performance, security, patching, optimization, automation, IT operations & reliability, employee experience, change & deployment, VDI, FinOps & Green IT, analytics, and more. Also home to three sub-views:
+  - Deep investigation framework (7 phases)
+  - Business value templates
+  - Acting at scale: automation & Remote Actions guidance
+- ✅ **Scheduled tasks**: a library of 59 prompts written to run unattended, filterable by topic and by audience (digital workplace, service desk, IT operations, network, security, IT leadership, procurement & finance, HR & compliance, Spark owners). Each has a suggested schedule and IT Expert (Assist or Device Troubleshooter). Includes a **Nexthink Spark** set (daily pulse, weekly abandonment and escalation analysis, executive summary, 30-day analysis) and a how-to for setting up a Task
+- ✅ **FAQ** covering Nexthink Assist and Scheduled tasks
 - ✅ Prompt engineering best practices
 
 ---
@@ -93,7 +95,7 @@ Together, they allow IT teams to move from reactive troubleshooting to proactive
 1. Open the playbook  
 2. Navigate by category or search  
 3. Copy a prompt  
-4. Paste into Nexthink Workspace  
+4. Paste into Nexthink Workspace (or into a new Task for recurring analysis)  
 5. Iterate and refine  
 
 ---
