@@ -130,4 +130,14 @@ Please:
 
 # Disclaimer
 
-This repository is community-driven and is not officially maintained by Nexthink.
+This repository is community-driven and is not officially maintained by Nexthink. Prompts are provided as-is; AI-generated answers can vary, so review and verify results before acting on them.
+
+---
+
+# Licence
+
+You may copy and adapt the prompts for your own use. Please do not republish this playbook as a whole without permission.
+
+# Trademarks
+
+Nexthink and Nexthink product names (including Assist, Spark, Infinity and Workspace) are trademarks or product names of Nexthink. All other product and company names are trademarks of their respective owners and are used only to identify them.
