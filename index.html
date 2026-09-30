@@ -750,9 +750,142 @@
   }
 
   /* ============================================================ PRINT */
+
+  /* ============================================================ SUB-NAVIGATION (segmented control) */
+  .subnav {
+    display: flex;
+    gap: 2px;
+    padding: 3px;
+    margin: 0 auto 1rem;
+    width: fit-content;
+    max-width: 100%;
+    overflow-x: auto;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+  }
+  .subnav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-family: var(--font-sans);
+    background: transparent;
+    border: 0;
+    border-radius: var(--radius-md);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s, color 0.15s;
+  }
+  .subnav-btn:hover { color: var(--nx-blue-dark); }
+  .subnav-btn:focus-visible, .path-card:focus-visible, .tfilter-btn:focus-visible {
+    outline: 2px solid var(--nx-blue);
+    outline-offset: 2px;
+  }
+  .subnav-btn.active {
+    background: var(--color-bg);
+    color: var(--nx-blue-dark);
+    font-weight: 600;
+    box-shadow: 0 1px 3px rgba(11, 20, 65, 0.14);
+  }
+  .subnav-count { font-size: 11px; font-weight: 600; color: var(--color-text-tertiary); }
+  @media (prefers-color-scheme: dark) {
+    .subnav-btn:hover, .subnav-btn.active { color: #7EC8FF; }
+  }
+  .subpane { display: none; }
+  .subpane.active { display: block; }
+
+  /* ============================================================ "WHERE TO GO NEXT" TILES */
+  .path-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 1.75rem; }
+  .path-card {
+    text-align: left;
+    font-family: var(--font-sans);
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 0.9rem 1rem;
+    cursor: pointer;
+    color: var(--color-text-primary);
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .path-card:hover { border-color: var(--nx-blue); box-shadow: 0 2px 8px rgba(49, 148, 247, 0.14); }
+  .path-card i { font-size: 20px; display: block; margin-bottom: 6px; }
+  .path-card h4 { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+  .path-card p { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+
+  /* ============================================================ TASK LIBRARY */
+  .tfilter-btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 5px 13px; font-size: 12px; font-family: var(--font-sans);
+    background: var(--color-bg); border: 1px solid var(--color-border);
+    border-radius: 20px; cursor: pointer; color: var(--color-text-secondary);
+    transition: all 0.15s;
+  }
+  .tfilter-btn:hover { border-color: var(--nx-blue); color: var(--nx-blue-dark); background: var(--nx-blue-light); }
+  .tfilter-btn.active { font-weight: 600; background: var(--nx-navy-light); color: var(--nx-blue); border-color: var(--nx-blue); }
+  @media (prefers-color-scheme: dark) {
+    .tfilter-btn:hover { color: var(--nx-blue); }
+    .tfilter-btn.active { background: var(--nx-blue-light); color: #7EC8FF; }
+  }
+  .task-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .task-chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 11px; padding: 2px 9px; border-radius: 20px;
+    color: var(--color-text-secondary); background: var(--color-bg);
+    border: 1px solid var(--color-border);
+  }
+  .task-chip i { font-size: 13px; }
+  .task-chip.sched { color: #00726D; background: var(--nx-teal-light); border-color: transparent; font-weight: 600; }
+  @media (prefers-color-scheme: dark) { .task-chip.sched { color: #5FE0D9; } }
+  .task-chip.needs { color: #B4432F; background: var(--nx-papaya-light); border-color: transparent; }
+  @media (prefers-color-scheme: dark) { .task-chip.needs { color: #FF9C8E; } }
+  .tfilter-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 0.6rem; }
+  .tfilter-label { flex: 0 0 44px; font-size: 12px; font-weight: 600; color: var(--color-text-tertiary); padding-top: 6px; }
+  .tfilter-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  @media (max-width: 600px) {
+    .tfilter-row { flex-direction: column; gap: 4px; margin-bottom: 0.5rem; }
+    .tfilter-label { flex: none; padding-top: 0; }
+    .tfilter-chips { flex-wrap: nowrap; overflow-x: auto; width: 100%; padding-bottom: 4px; scrollbar-width: none; }
+    .tfilter-chips::-webkit-scrollbar { display: none; }
+    .tfilter-btn { flex: 0 0 auto; white-space: nowrap; }
+  }
+  .task-count-line { font-size: 12px; color: var(--color-text-tertiary); margin: 0.75rem 0 1rem; }
+  .task-empty { text-align: center; padding: 2rem 1rem; font-size: 13px; color: var(--color-text-secondary); }
+  .task-goal { font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; margin-bottom: 8px; }
+  .card-twin { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 8px; }
+  .twin-link {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 12px; font-family: var(--font-sans); font-weight: 500;
+    color: var(--nx-blue-dark); background: none; border: 0; padding: 0; cursor: pointer;
+  }
+  .twin-link:hover { text-decoration: underline; }
+  @media (prefers-color-scheme: dark) { .twin-link { color: #7EC8FF; } }
+  .notice {
+    background: var(--nx-papaya-light); border-left: 3px solid var(--nx-papaya);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: 0.7rem 1rem; margin-bottom: 1.25rem;
+  }
+  .notice p { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
+  .cadence-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 1.25rem; }
+  .cadence-table th, .cadence-table td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--color-border); vertical-align: top; }
+  .cadence-table th { font-size: 12px; color: var(--color-text-tertiary); font-weight: 600; }
+  .cadence-table td:first-child { white-space: nowrap; font-weight: 600; }
+  .cadence-table td { color: var(--color-text-secondary); line-height: 1.5; }
+  #pane-howto .sub-label { margin-top: 1.5rem; }
+  #pane-howto .sub-label:first-of-type { margin-top: 0.25rem; }
+  .cta-row { margin: 0.25rem 0 0.25rem; }
+  .cta-btn {
+    display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px;
+    font-size: 13px; font-weight: 600; font-family: var(--font-sans);
+    color: #fff; background: var(--nx-blue); border: 0; border-radius: var(--radius-md); cursor: pointer;
+  }
+  .cta-btn:hover { background: var(--nx-blue-dark); }
+
   @media print {
     body { background: #fff; }
-    .nav-strip, .filter-strip { display: none; }
+    .nav-strip, .filter-strip, .subnav { display: none; }
+    .subpane { display: block !important; margin-bottom: 2rem; }
     .section { display: block !important; margin-bottom: 2rem; }
     .phase-body { display: block !important; }
     .copy-btn, .card-actions { display: none; }
@@ -778,10 +911,8 @@
   <nav class="nav-strip" role="navigation" aria-label="Sections">
     <button class="nav-btn active" data-section="start" onclick="showSection('start', this)"><i class="ti ti-rocket"></i> Getting started</button>
     <button class="nav-btn" data-section="prompts" onclick="showSection('prompts', this)"><i class="ti ti-message-bolt"></i> Prompt packs</button>
-    <button class="nav-btn" data-section="investigation" onclick="showSection('investigation', this)"><i class="ti ti-zoom-scan"></i> Deep investigation</button>
-    <button class="nav-btn" data-section="value" onclick="showSection('value', this)"><i class="ti ti-chart-arrows-vertical"></i> Business value</button>
-    <button class="nav-btn" data-section="actions" onclick="showSection('actions', this)"><i class="ti ti-player-play"></i> Acting at scale</button>
-	<button class="nav-btn" data-section="faq" onclick="showSection('faq', this)"><i class="ti ti-help"></i> FAQ</button>
+    <button class="nav-btn" data-section="tasks" onclick="showSection('tasks', this)"><i class="ti ti-clock-play"></i> Scheduled tasks</button>
+    <button class="nav-btn" data-section="faq" onclick="showSection('faq', this)"><i class="ti ti-help"></i> FAQ</button>
     <button class="nav-btn" data-section="favorites" onclick="showSection('favorites', this)"><i class="ti ti-star"></i> Favorites <span id="fav-count-badge" class="nav-badge empty">0</span></button>
   </nav>
 
@@ -871,6 +1002,14 @@
         </div>
       </div>
 
+      <p class="sub-label">Where to go next</p>
+      <div class="path-grid">
+        <button class="path-card" onclick="goTo('prompts','packs')"><i class="ti ti-message-bolt" style="color:var(--nx-blue)"></i><h4>Prompt packs</h4><p>Copy-ready prompts, grouped by topic.</p></button>
+        <button class="path-card" onclick="goTo('prompts','investigation')"><i class="ti ti-zoom-scan" style="color:var(--nx-purple)"></i><h4>Deep investigation</h4><p>A 7-phase method for root-cause work.</p></button>
+        <button class="path-card" onclick="goTo('tasks','library')"><i class="ti ti-clock-play" style="color:var(--nx-teal)"></i><h4>Scheduled tasks</h4><p>Run the right prompt every morning or every week.</p></button>
+        <button class="path-card" onclick="goTo('prompts','value')"><i class="ti ti-chart-arrows-vertical" style="color:var(--nx-blue-dark)"></i><h4>Business value</h4><p>Turn DEX insights into executive-ready value.</p></button>
+      </div>
+
       <p class="sub-label">Example high-quality prompts</p>
       <div id="starter-prompts"></div>
 
@@ -879,8 +1018,16 @@
     </div>
   </div>
 
-  <!-- PROMPT PACKS -->
+  <!-- PROMPT PACKS (with Deep investigation, Business value, Acting at scale as sub-views) -->
   <div id="section-prompts" class="section">
+    <div class="subnav" role="tablist" aria-label="Prompt library views">
+      <button class="subnav-btn active" data-pane="packs" role="tab" onclick="showPane('prompts','packs')"><i class="ti ti-message-bolt"></i> Prompt packs</button>
+      <button class="subnav-btn" data-pane="investigation" role="tab" onclick="showPane('prompts','investigation')"><i class="ti ti-zoom-scan"></i> Deep investigation</button>
+      <button class="subnav-btn" data-pane="value" role="tab" onclick="showPane('prompts','value')"><i class="ti ti-chart-arrows-vertical"></i> Business value</button>
+      <button class="subnav-btn" data-pane="actions" role="tab" onclick="showPane('prompts','actions')"><i class="ti ti-player-play"></i> Acting at scale</button>
+    </div>
+
+<div id="pane-packs" class="subpane active">
     <div class="content-card">
       <h2 class="section-title">Ready-to-use prompt packs</h2>
       <p class="section-sub">Copy and paste any of these directly into Nexthink Workspace.</p>
@@ -967,12 +1114,12 @@
         <p><strong>About the peripheral & call-quality prompts (microphones, cameras, speakers, drivers):</strong> they run on your existing DEX telemetry, but they reach their full depth — model- and driver-level breakdowns, poor-session correlation — once the <strong>Collaboration Experience</strong> module is enabled.</p>
       </div>
 
+      <p style="font-size:12px;color:var(--color-text-tertiary);margin:-0.25rem 0 1rem;"><i class="ti ti-clock-play"></i> Prompts marked <em>Available as a scheduled task</em> have a ready-made version in <a href="#" onclick="goTo('tasks','library');return false;" style="color:var(--nx-blue-dark)">Scheduled tasks</a>.</p>
       <div id="prompt-pack-list"></div>
     </div>
   </div>
 
-  <!-- DEEP INVESTIGATION -->
-  <div id="section-investigation" class="section">
+<div id="pane-investigation" class="subpane">
     <div class="content-card">
       <h2 class="section-title">Deep investigation framework</h2>
       <p class="section-sub">A structured 7-phase approach for pattern analysis and root cause identification. Click any phase to expand.</p>
@@ -985,8 +1132,7 @@
     </div>
   </div>
 
-  <!-- BUSINESS VALUE -->
-  <div id="section-value" class="section">
+<div id="pane-value" class="subpane">
     <div class="content-card">
       <h2 class="section-title">Business value prompts</h2>
       <p class="section-sub">Turn DEX insights into quantifiable, executive-ready value statements. Click "Show prompt" to expand each use case.</p>
@@ -994,8 +1140,7 @@
     </div>
   </div>
 
-  <!-- ACTING AT SCALE -->
-  <div id="section-actions" class="section">
+<div id="pane-actions" class="subpane">
     <div class="content-card">
       <h2 class="section-title">Acting at scale</h2>
       <p class="section-sub">Analyze and automate remote actions across your environment.</p>
@@ -1003,11 +1148,92 @@
     </div>
   </div>
 
+  </div>
+
+  <!-- SCHEDULED TASKS -->
+  <div id="section-tasks" class="section">
+    <div class="subnav" role="tablist" aria-label="Scheduled tasks views">
+      <button class="subnav-btn active" data-pane="library" role="tab" onclick="showPane('tasks','library')"><i class="ti ti-list-details"></i> Task library <span class="subnav-count" id="task-count"></span></button>
+      <button class="subnav-btn" data-pane="howto" role="tab" onclick="showPane('tasks','howto')"><i class="ti ti-route"></i> How tasks work</button>
+    </div>
+
+    <div id="pane-library" class="subpane active">
+      <div class="content-card">
+        <h2 class="section-title">Task library</h2>
+        <p class="section-sub">Prompts written to run unattended. Each one has a suggested schedule and IT Expert. Filter by topic or by who it is for, copy it into a new Task in Nexthink Workspace, then fill in any <span class="placeholder-tag" style="font-size:10px;">[placeholders]</span>.</p>
+        <div class="tfilter-row"><span class="tfilter-label">Topic</span><div class="tfilter-chips" id="task-filter-topic"></div></div>
+        <div class="tfilter-row"><span class="tfilter-label">For</span><div class="tfilter-chips" id="task-filter-aud"></div></div>
+        <p class="task-count-line" id="task-count-line" aria-live="polite"></p>
+        <div id="task-library"></div>
+        <div class="task-empty" id="task-empty" style="display:none;">No task matches both filters. Try <a href="#" onclick="resetTaskFilters();return false;" style="color:var(--nx-blue-dark)">clearing them</a>.</div>
+      </div>
+    </div>
+
+    <div id="pane-howto" class="subpane">
+      <div class="content-card">
+        <h2 class="section-title">How tasks work</h2>
+        <p class="section-sub">A Task runs a prompt for you on a schedule, as if you had typed it into Workspace at that moment.</p>
+
+        <div class="notice"><p><strong>Technical Preview.</strong> Tasks are a Technical Preview capability in Nexthink Workspace and may evolve. Menu and button names below can change.</p></div>
+
+        <p class="sub-label">Create a task</p>
+        <div class="info-item"><div>
+          1. Open the <strong>Tasks</strong> view and click <strong>+ New Task</strong><br>
+          2. Give it a <strong>Name</strong> and select an <strong>IT Expert</strong> (Assist or Device Troubleshooter)<br>
+          3. Paste a prompt from the <a href="#" onclick="showPane('tasks','library');return false;" style="color:var(--nx-blue-dark)">Task library</a> into the <strong>Instructions</strong> and fill in the <span class="placeholder-tag" style="font-size:10px;">[placeholders]</span><br>
+          4. Set <strong>Scheduling</strong> (frequency and time) and <strong>Ends</strong> (never, or a date)<br>
+          5. <strong>Save and activate</strong>
+        </div></div>
+
+        <p class="sub-label">Choose an IT Expert</p>
+        <div class="technique-grid">
+          <div class="technique-item">
+            <i class="ti ti-sparkles" style="color:var(--nx-blue)"></i>
+            <h4>Assist</h4>
+            <p>The general Nexthink Assist experience. The right default for fleet-wide analysis and reporting, and the one every prompt in the library is written for.</p>
+          </div>
+          <div class="technique-item">
+            <i class="ti ti-stethoscope" style="color:var(--nx-teal)"></i>
+            <h4>Device Troubleshooter</h4>
+            <p>The first Nexthink-curated IT Expert. Worth trying for tasks centred on individual devices, such as PC slowness or printing. Run it next to Assist and compare.</p>
+          </div>
+        </div>
+        <p style="font-size:12px;color:var(--color-text-tertiary);margin:-0.5rem 0 1.25rem;">This choice was labelled <em>Select an IT Agent</em> in earlier previews. More IT Experts may appear over time.</p>
+
+        <p class="sub-label">Choose a cadence</p>
+        <table class="cadence-table">
+          <thead><tr><th>Cadence</th><th>Good for</th></tr></thead>
+          <tbody>
+            <tr><td>Hourly</td><td>Scanning for weak signals that could become an incident.</td></tr>
+            <tr><td>Daily</td><td>A short ranked list to act on each morning: top 10 slow PCs, patch compliance snapshot.</td></tr>
+            <tr><td>Weekly</td><td>Reviews, governance and leadership briefings. Most of the library.</td></tr>
+            <tr><td>One-time</td><td>A check tied to an event, such as the day after a rollout wave.</td></tr>
+            <tr><td>Monthly or quarterly questions</td><td>Budget, refresh and audit questions move slowly. Schedule weekly with an end date, or run one-time when you need the answer.</td></tr>
+          </tbody>
+        </table>
+
+        <p class="sub-label">What makes a prompt task-ready</p>
+        <div class="info-item"><div>
+          <strong>Explicit scope and window.</strong> Say which devices, which population and which period, and have the report state the exact dates.<br>
+          <strong>Standalone.</strong> Every run is isolated. Don't ask to compare with "the last report". Compare with an earlier period from Nexthink data instead.<br>
+          <strong>A fixed output shape.</strong> Ranked table, top 10, headline number first. Consistent reports are easier to skim and to compare.<br>
+          <strong>Recommend, don't act.</strong> Tasks analyze and propose. A person reviews the result and decides.<br>
+          <strong>Proven first.</strong> Try the prompt in a normal conversation, then schedule it.
+        </div></div>
+
+        <div class="cta-row"><button class="cta-btn" onclick="showPane('tasks','library')"><i class="ti ti-list-details"></i> Browse the task library</button></div>
+        <p style="font-size:12px;color:var(--color-text-tertiary);margin-top:0.75rem;">More questions? See the Scheduled tasks entries in the <a href="#" onclick="goTo('faq');return false;" style="color:var(--nx-blue-dark)">FAQ</a>.</p>
+      </div>
+    </div>
+  </div>
+
 <!-- FAQ -->
 <div id="section-faq" class="section">
   <div class="content-card">
     <h2 class="section-title">Frequently asked questions</h2>
-    <p class="section-sub">Understand how Nexthink Assist works and how to use it effectively.</p>
+    <p class="section-sub">Understand how Nexthink Assist and Scheduled tasks work and how to use them effectively.</p>
+
+    <p class="sub-label">Using Nexthink Assist</p>
 
     <!-- FAQ ITEM -->
     <div class="phase-wrap" id="faq-conversation-sharing">
@@ -1369,7 +1595,173 @@ Constraints:
 </div>
 
 
-  </div>
+  <p class="sub-label" style="margin-top:1.75rem;">Scheduled tasks</p>
+
+    <!-- FAQ ITEM -->
+    <div class="phase-wrap" id="faq-tasks-what">
+      <div class="phase-header">
+        <span class="phase-title">What is a Scheduled Task, and when should I use one?</span>
+        <i class="ti ti-chevron-down phase-chevron"></i>
+      </div>
+      <div class="phase-body">
+        <div class="info-item">
+          <div>
+            A Scheduled Task runs a prompt for you automatically, as if you had typed it into Workspace at the scheduled moment. The result is ready when you need it.<br><br>
+            <strong>Use a Task when</strong>
+            <ul>
+              <li>you ask the same question on a rhythm, such as a daily top 10 or a weekly review</li>
+              <li>you want issues surfaced without having to remember to look</li>
+              <li>you need the same report shape for a recurring meeting</li>
+            </ul>
+            <strong>Use a normal conversation when</strong>
+            <ul>
+              <li>you are investigating something new and want to drill down, challenge the answer or follow up</li>
+            </ul>
+            👉 Prove the prompt in a conversation first, then schedule it.<br><br>
+            Tasks are a Technical Preview capability and may evolve. Ready-made prompts are in <a href="#" onclick="goTo('tasks','library');return false;">Scheduled tasks</a>.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ ITEM -->
+    <div class="phase-wrap" id="faq-tasks-it-experts">
+      <div class="phase-header">
+        <span class="phase-title">What are IT Experts, and which one should I choose?</span>
+        <i class="ti ti-chevron-down phase-chevron"></i>
+      </div>
+      <div class="phase-body">
+        <div class="info-item">
+          <div>
+            When you set up a Task, you choose which <strong>IT Expert</strong> runs it. In earlier previews this step was called <em>Select an IT Agent</em>.<br><br>
+            Two IT Experts are available today:
+            <ul>
+              <li><strong>Assist</strong>: the general Nexthink Assist experience. The default choice for fleet-wide analysis and reporting.</li>
+              <li><strong>Device Troubleshooter</strong>: the first Nexthink-curated IT Expert. A good candidate for tasks focused on individual devices. Try it next to Assist and compare the reports.</li>
+            </ul>
+            The list may grow over time, so check the selector in Workspace.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ ITEM -->
+    <div class="phase-wrap" id="faq-tasks-create">
+      <div class="phase-header">
+        <span class="phase-title">How do I create a Scheduled Task?</span>
+        <i class="ti ti-chevron-down phase-chevron"></i>
+      </div>
+      <div class="phase-body">
+        <div class="info-item">
+          <div>
+            <ol>
+              <li>Open the <strong>Tasks</strong> view and click <strong>+ New Task</strong>.</li>
+              <li>Enter a <strong>Name</strong> and select an <strong>IT Expert</strong>.</li>
+              <li>Paste your prompt into the <strong>Instructions</strong> and fill in any <span class="placeholder-tag" style="font-size:10px;">[placeholders]</span>.</li>
+              <li>Set <strong>Scheduling</strong> and <strong>Ends</strong> (never, or a date).</li>
+              <li><strong>Save and activate</strong> the Task.</li>
+            </ol>
+            Button and menu names may change while Tasks are in Technical Preview.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ ITEM -->
+    <div class="phase-wrap" id="faq-tasks-prompt-design">
+      <div class="phase-header">
+        <span class="phase-title">How do I write a prompt that works well as a Task?</span>
+        <i class="ti ti-chevron-down phase-chevron"></i>
+      </div>
+      <div class="phase-body">
+        <div class="info-item">
+          <div>
+            Nobody is there to answer follow-up questions, so the prompt has to carry everything:
+            <ul>
+              <li><strong>Scope</strong>: which devices, populations and exclusions.</li>
+              <li><strong>Window</strong>: the period to analyze. Ask the report to print the exact start and end dates.</li>
+              <li><strong>Output</strong>: a ranked table, a top 10, the headline number first.</li>
+              <li><strong>Date and time</strong>: ask for the run date and time at the top of each report.</li>
+              <li><strong>Confidence</strong>: ask it to state data gaps that limit the conclusions.</li>
+            </ul>
+            Every prompt in the <a href="#" onclick="goTo('tasks','library');return false;">Task library</a> follows this pattern.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ ITEM -->
+    <div class="phase-wrap" id="faq-tasks-cadence">
+      <div class="phase-header">
+        <span class="phase-title">How often should I schedule a Task?</span>
+        <i class="ti ti-chevron-down phase-chevron"></i>
+      </div>
+      <div class="phase-body">
+        <div class="info-item">
+          <div>
+            Match the cadence to how fast the answer changes and how fast you can act on it.
+            <ul>
+              <li><strong>Hourly</strong>: weak-signal scans for emerging incidents.</li>
+              <li><strong>Daily</strong>: short ranked lists to work through each morning.</li>
+              <li><strong>Weekly</strong>: reviews, governance and leadership briefings.</li>
+              <li><strong>One-time</strong>: a check after a specific event, such as a rollout wave.</li>
+            </ul>
+            👉 Running a heavy 30-day analysis every day rarely tells you more than running it weekly. Start with weekly and tighten only if you act on every run.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ ITEM -->
+    <div class="phase-wrap" id="faq-tasks-previous-run">
+      <div class="phase-header">
+        <span class="phase-title">Can a Task compare its results with the previous run?</span>
+        <i class="ti ti-chevron-down phase-chevron"></i>
+      </div>
+      <div class="phase-body">
+        <div class="info-item">
+          <div>
+            No. Each run is isolated and starts with no memory of earlier runs, so "compare with the last report" cannot work.<br><br>
+            Ask for a comparison against an <strong>earlier period in Nexthink data</strong> instead, for example "compare with the same measure 7 days earlier". The result is the same and it works on every run.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ ITEM -->
+    <div class="phase-wrap" id="faq-tasks-data-needs">
+      <div class="phase-header">
+        <span class="phase-title">Some tasks say "Needs" something. What does that mean?</span>
+        <i class="ti ti-chevron-down phase-chevron"></i>
+      </div>
+      <div class="phase-body">
+        <div class="info-item">
+          <div>
+            A few tasks depend on data that not every Nexthink tenant collects, for example VPN and network data, security agent and encryption status, or application usage.<br><br>
+            Those prompts tell the IT Expert to say so when the data is missing instead of estimating. Run the prompt once in a normal conversation first to see what your tenant can answer.<br><br>
+            Tasks marked <em>Privacy review recommended</em> work with aggregated device activity. Involve your privacy officer or works council before scheduling them, and keep the reports at group level.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ ITEM -->
+    <div class="phase-wrap" id="faq-tasks-actions">
+      <div class="phase-header">
+        <span class="phase-title">Can a Task fix the issues it finds?</span>
+        <i class="ti ti-chevron-down phase-chevron"></i>
+      </div>
+      <div class="phase-body">
+        <div class="info-item">
+          <div>
+            No. A Task analyzes and recommends. Nexthink Assist does not execute actions that change configuration or data.<br><br>
+            Once you have reviewed a report, act on it with Remote Actions or automations. See <a href="#" onclick="goTo('prompts','actions');return false;">Acting at scale</a> for prompts that help you choose and target them.
+          </div>
+        </div>
+      </div>
+    </div>
+
+</div>
 </div>
 
 <!-- FAVORITES -->
@@ -1535,7 +1927,7 @@ const promptPacks = [
   { category: "learning", label: "Logon time measurement", text: "How is logon time measured in Nexthink? Please explain the different phases involved and what elements typically impact logon duration."},
   { category: "learning", label: "Understanding p95 and p05", text: "Explain what p95 and p05 mean in performance analysis. How should they be interpreted, and how can they be used effectively when analyzing DEX metrics?"},
   { category: "learning", label: "DEXOps maturity framework", text: "How can I understand which level of DEXOps maturity my organization has?" },
-  // ── Migrated from the former IT Agents Catalog (task + advanced prompts, de-agentified) ──
+  // ── Additional prompts ──
   { category: "security", label: "Security posture exposure review", text: "Identify devices with risky security posture drift and explain the biggest compliance gaps." },
   { category: "security", label: "Security posture — deep exposure analysis", text: "Identify the endpoint populations with the weakest security posture by correlating missing patches, unhealthy security agents, disabled protections, unsupported operating systems, local admin exposure, encryption gaps, stale devices, outdated BIOS versions, and operational hygiene weaknesses. For each population, estimate relative exposure severity, identify the primary risk drivers, explain the likely security implications, and recommend the most impactful remediation priorities with expected risk reduction outcomes." },
   { category: "security", label: "Compliance drift check", text: "Identify the device populations deviating most from enterprise operational and security standards across OS versions, policies, BIOS versions, drivers, applications, encryption states, and baseline configurations. Highlight configuration drift trends, operational risk accumulation, and remediation priorities." },
@@ -1627,6 +2019,12 @@ const promptPacks = [
   { category: "engage", label: "Targeted campaign based on peripheral model", text: "Create a campaign targeting users whose last poor session used [specific headset model], asking if they are experiencing audio issues and whether they'd like a replacement." },
   { category: "performance", label: "Peripheral + connection type correlation", text: "For poor audio sessions, break down by microphone model AND connection type (WiFi vs. Ethernet) — does the peripheral issue persist regardless of network quality?" },
   { category: "optimization", label: "Fleet peripheral standardization opportunity", text: "How many distinct microphone, speaker, and camera models are in use across the fleet — what is the long tail of rarely used peripherals?" },
+  // ── Advanced prompts ──
+  ,{ category: "management", label: "Value realization — quarterly assessment", text: "Produce a quarterly executive value realization assessment quantifying the measurable business impact generated by Nexthink across productivity restoration, ticket reduction, automation savings, proactive remediation, MTTR reduction, faster diagnostics, license optimization, hardware lifecycle extension, sustainability improvements, and operational efficiency gains. For each value category, explain the methodology, assumptions, estimated savings, confidence level, and operational initiatives contributing most to value generation." }
+  ,{ category: "management", label: "DEX governance — comprehensive score analysis", text: "Conduct a comprehensive DEX Score governance and root cause analysis across the organization. Begin with a full score breakdown covering DEX Score, Technology Score, Endpoint Score, Applications Score, Collaboration Score, and Sentiment Score, explicitly explaining the weak-link relationship between parent and child scores rather than treating composites as simple averages. For every degraded score, drill down to the contributing subscores and leaf scores, identify the underlying metrics and technologies responsible, and quantify score impact using affected population size and business criticality. Benchmark results across countries, business entities, departments, hardware models, OS versions, and VDI versus physical populations to surface statistically meaningful outliers rather than noise. Cross-reference Technology Score against Sentiment Score and recent campaign responses to identify perception gaps and hidden frustrations not visible in technical telemetry. Perform a threshold governance review: for each active leaf score threshold, evaluate P50, P90, and P95 fleet distributions, determine whether Good, Average, and Frustrating bands still separate experiences meaningfully, and flag thresholds that have never been revisited or that appear over- or under-sensitive. Never recommend a threshold change solely to raise a score — justify every proposed change with evidence such as the percentage of healthy users currently misclassified. Assess score and sentiment coverage to warn where conclusions may be statistically weak due to missing telemetry or connector gaps. Conclude with an executive summary structured as: DEX Overview, Root Cause Analysis, Impact Analysis, Cohort Comparison, Trend Analysis, Governance Assessment, Recommended Actions, Expected DEX Improvement, and Risks and Considerations." }
+  ,{ category: "management", label: "DEX threshold change — impact simulation", text: "Before modifying any DEX score threshold, simulate the impact of the proposed change on the current population. For a given metric with a proposed change to the Average or Frustrating range start value, count how many users and devices currently fall into each band (Good, Average, Frustrating) using the current threshold, then count how many would move between bands with the new threshold, including the percentage change. Compute the estimated change in the composite score for the affected population, and the estimated change in the composite and leaf score for the involved branch, with analysis per country. State the Nexthink default threshold for this metric as a reference baseline, and flag that threshold changes are not retroactive — the new threshold applies from the next computation cycle only. Provide a change-log entry I can record (date, metric, old value, new value, justification). Present the simulation results for review and do not assume any change has been applied." }
+  ,{ category: "monitoring", label: "DEX degradation — ten-step root cause investigation", text: "Conduct a complete ten-step root cause investigation for DEX score degradation across the requested scope. Begin by confirming the scope (single device, cohort, department, or organization) and converting any relative time expression into explicit dates. Retrieve the DEX score baseline (overall, Technology, Endpoint, Applications, Collaboration, Sentiment) for the defined window and identify which subscore drove the largest delta; if Sentiment is the primary driver, stop the technical investigation and report that finding alone. Otherwise, inventory the affected population including OS distribution and Collector version range, excluding devices with insufficient data. Query CPU, memory, disk, and network utilization for the affected population, recording P50 and P95 values and flagging threshold breaches. Query application crash and freeze events, classifying severity as Isolated, Recurring, or Severe, and identify the top offending applications. If the Applications subscore is degraded, analyze web application page load times and transaction durations, flagging incomplete transaction ratios above 20%. Query boot duration and login desktop-visible time P50 and P95, correlating timing with the degradation onset without attributing cause without cross-referencing other signals. Query package installs, uninstalls, and OS updates within the correlation window and classify each as Causal, Contributory, Coincidental, or Candidate — never Causal without before/after metric confirmation. Synthesize all signals using the five-tier confidence framework (Confirmed / Probable / Candidate / Coincidental / Insufficient Evidence) to identify the primary cause, contributing factors, and ruled-out alternative hypotheses. Show each investigation step as a structured progress update before delivering the final report, and explicitly state any data gaps and how they affect confidence. Use explicit dates throughout — never relative time expressions — and include units on every numeric value." }
+  ,{ category: "operations", label: "Printing & PaperCut — fleet health sweep", text: "Perform a fleet-wide printing health sweep covering Windows Print Spooler stability, PaperCut MF/NG client health, printer driver issues, and network printer connectivity over the past 7 days. For every affected device, first factualize the issue using device telemetry: confirm whether the Print Spooler service is running, the installed PaperCut client version, any recent application crashes or system events tied to printing, and whether the onset correlates with a recent package install or update. Classify each case by scope — a single-user issue limited to a local queue, driver, or PaperCut client configuration; a single-device issue such as a Spooler crash or driver corruption; or a site-wide or server-side issue such as a PaperCut server outage or unreachable print server — and group findings accordingly rather than reporting every device independently. Wherever an automated remediation is available, such as a Print Spooler reset, propose it ahead of any manual step, and follow the structured triage decision path rather than skipping to a fix. For every case requiring L2 escalation, summarize the device name, OS, PaperCut client version, Spooler status, last crash timestamp, and the steps already attempted, so the escalation is immediately actionable. Close with a prioritized list distinguishing recurring structural printing issues from isolated incidents, and recommend the highest-value fleet-wide fix first." }
 ];
 
 const phases = [
@@ -1729,6 +2127,7 @@ const SECTION_META = {
   value:         { label: 'Business value',     color: '#1046A8', bg: '#E8EBF5' },
   actions:       { label: 'Acting at scale',    color: '#0B1441', bg: '#DDE6EF' },
   faq:           { label: 'FAQ',                color: '#00B1A9', bg: '#D6F5F4' },
+  tasks:         { label: 'Scheduled task',     color: '#00726D', bg: '#D6F5F4' },
 };
 
 function copyToClipboard(btn, text, meta) {
@@ -2084,6 +2483,884 @@ function renderActions() {
   actionsContent.forEach(a => c.appendChild(makePromptCard(a.text, a.label, 'act', 'actions', 'Acting at scale')));
 }
 
+
+// ── SCHEDULED TASKS ──────────────────────────────────────────────────────────
+const RUN_RULES = "Run rules for this scheduled task:\n- Open the report with the run date and time and the explicit start and end dates of the analysis window.\n- Treat this run as standalone: do not refer to earlier reports or prior conversations.\n- Recommend and prioritize only; do not assume any change has been made.\n- State any data gap that limits confidence.";
+const TASK_TOPICS = {"exp": {"label": "Experience & DEX", "icon": "ti-mood-happy"}, "perf": {"label": "Performance & apps", "icon": "ti-gauge"}, "net": {"label": "Network & sites", "icon": "ti-network"}, "sec": {"label": "Security & patching", "icon": "ti-shield-check"}, "ops": {"label": "IT operations", "icon": "ti-server-cog"}, "auto": {"label": "Automation", "icon": "ti-bolt"}, "change": {"label": "Change & adoption", "icon": "ti-rocket"}, "hw": {"label": "Hardware & lifecycle", "icon": "ti-device-laptop"}, "fin": {"label": "FinOps & Green IT", "icon": "ti-coin"}, "lead": {"label": "Leadership reporting", "icon": "ti-presentation"}, "spark": {"label": "Nexthink Spark", "icon": "ti-message-chatbot"}};
+const TASK_AUDIENCES = {"dex": "Digital workplace", "desk": "Service desk", "ops": "IT operations", "net": "Network", "sec": "Security", "mgmt": "IT leadership", "proc": "Procurement & finance", "hr": "HR & compliance", "spark": "Spark owners"};
+const taskLibrary = [
+ {
+  "title": "Productivity loss watch",
+  "topic": "exp",
+  "schedule": "Daily at 8:30 AM",
+  "expert": "Assist",
+  "goal": "Which populations lose the most productive time to digital friction, with the fixes worth doing first.",
+  "review": "Productivity loss review",
+  "deep": "Productivity loss — deep dive (15 populations)",
+  "text": "Detect the employee populations currently losing the most productive time due to recurring digital friction. Quantify estimated business impact, identify the top contributing technical factors, prioritize the highest-impact remediation opportunities, and estimate the expected productivity gains and operational benefits for each recommendation.",
+  "aud": [
+   "dex",
+   "mgmt"
+  ]
+ },
+ {
+  "title": "Structurally unstable devices — top 10",
+  "topic": "exp",
+  "schedule": "Daily at 9:00 AM",
+  "expert": "Assist or Device Troubleshooter",
+  "goal": "The 10 devices that drag DEX down through recurring, systemic degradation, with root cause and remedy.",
+  "deep": "Structurally unstable devices — deep dive",
+  "text": "Identify the 10 most structurally unstable devices with the greatest negative impact on DEX, focusing on recurring and systemic degradation rather than isolated incidents. Correlate endpoint and application degradations, identify the most impactful root causes, and propose high-impact remediation recommendations prioritized by operational impact.",
+  "aud": [
+   "dex",
+   "desk"
+  ]
+ },
+ {
+  "title": "Silent fatigue populations",
+  "topic": "exp",
+  "schedule": "Weekly on Monday at 9:30 AM",
+  "expert": "Assist",
+  "goal": "Populations quietly worn down by recurring friction, before it shows up in tickets.",
+  "review": "Silent fatigue populations review",
+  "text": "Identify populations experiencing silent operational fatigue and structural digital frustration by correlating recurring degradations, DEX decline trends, endpoint instability, repeated interruptions, degraded collaboration quality, application instability, and persistent operational friction before support escalation or productivity decline becomes visible.",
+  "aud": [
+   "dex"
+  ]
+ },
+ {
+  "title": "Hidden friction scan",
+  "topic": "exp",
+  "schedule": "Weekly on Tuesday at 8:30 AM",
+  "expert": "Assist",
+  "goal": "The most structurally frustrating experience issues across freezes, logins, Wi-Fi and crashes.",
+  "review": "Hidden friction review",
+  "deep": "Hidden friction — deep dive",
+  "text": "Detect the most structurally frustrating employee experience issues by correlating freezes, slowness, login delays, unstable Wi‑Fi, repeated interruptions, crashes, degraded collaboration quality, and application instability across populations, locations, and device categories. Prioritize the highest-impact friction patterns.",
+  "aud": [
+   "dex"
+  ]
+ },
+ {
+  "title": "VIP experience watch",
+  "topic": "exp",
+  "schedule": "Daily at 8:00 AM",
+  "expert": "Assist",
+  "goal": "Hidden risks for executives and critical users, before they escalate.",
+  "review": "VIP exposure review",
+  "deep": "VIP exposure — deep dive",
+  "text": "Analyze executives and business-critical users [VIP POPULATION, e.g. your VIP device list or user group] to identify hidden risks likely to degrade their digital experience, including unstable devices, degraded collaboration quality, battery health deterioration, application instability, roaming issues, networking weaknesses, and recurring DEX degradations. Recommend proactive remediation actions before escalation occurs.",
+  "aud": [
+   "desk",
+   "mgmt"
+  ]
+ },
+ {
+  "title": "Weekly DEX health & improvement review",
+  "topic": "exp",
+  "schedule": "Weekly on Monday at 8:00 AM",
+  "expert": "Assist",
+  "goal": "DEX score drill-down from overall to leaf scores, with top risks, top opportunities and expected gain.",
+  "deep": "DEX governance — comprehensive score analysis",
+  "text": "Perform a full DEX Score health review across the organization. Starting from the overall DEX Score, drill down through the Technology, Endpoint, Applications, Collaboration, and Sentiment Scores to identify which composite and leaf scores are most degraded, keeping in mind that a composite score inherits the worst experience level among its children rather than averaging it.\n\nFor each degraded area:\n- quantify the score impact using affected population size and business criticality,\n- classify the finding as Critical, High, Medium, or Low based on score impact combined with population size,\n- provide the problem, the evidence, the likely root cause, the affected population, the recommended action (corrective, preventive, or optimization), the expected DEX gain, the implementation complexity, and a confidence level.\n\nBenchmark results across countries, entities, hardware models, and OS versions to confirm whether each degradation is structural or isolated.\n\nDo not propose or simulate any threshold or scoring configuration change in this review — focus exclusively on identifying and prioritizing situations to remediate.\n\nConclude with:\n- Top 5 DEX risks\n- Top 5 DEX opportunities\n- Expected DEX gain if the top actions are implemented\n- Recommended next actions",
+  "aud": [
+   "dex",
+   "mgmt"
+  ]
+ },
+ {
+  "title": "DEX score drop — root cause",
+  "topic": "exp",
+  "schedule": "Weekly on Thursday at 8:00 AM",
+  "expert": "Assist",
+  "goal": "The cohorts with the largest DEX drop over the last two weeks, with a confidence-rated root cause.",
+  "deep": "DEX degradation — ten-step root cause investigation",
+  "text": "Perform a structured root cause investigation for the devices or cohorts showing the largest DEX score degradation over the last 14 days compared with the preceding 14 days. Establish the DEX score baseline and identify which subscore drove the largest delta, then correlate endpoint resource utilization, application stability, boot and login performance, and recent change events within those same 14 days. Apply a five-tier confidence scale (Confirmed / Probable / Candidate / Coincidental / Insufficient Evidence) to classify the primary cause, contributing factors, and any alternative hypotheses considered. Clearly state any data gaps and their impact on confidence. Produce a single structured RCA report.",
+  "aud": [
+   "dex"
+  ]
+ },
+ {
+  "title": "Repeat offenders",
+  "topic": "exp",
+  "aud": [
+   "desk",
+   "dex"
+  ],
+  "schedule": "Weekly on Tuesday at 8:00 AM",
+  "expert": "Assist",
+  "goal": "Devices that keep having the same problem: a proactive outreach list.",
+  "text": "Identify the devices that keep having the same problem. Over the last 14 days, find managed end-user devices (exclude servers) with the same issue type (application crashes, freezes, slow boot or logon, low disk space, Wi-Fi drops) on at least 3 different days. Rank the top 20 by number of affected days and user impact. For each device give: the issue type, the days affected, the most likely cause visible in the data, and a recommended next step (proactive outreach, Remote Action, reimage or hardware replacement). Group devices that share a cause, such as the same driver, application version or model."
+ },
+ {
+  "title": "Recurring PC slowness — top 10",
+  "topic": "perf",
+  "schedule": "Daily at 9:00 AM",
+  "expert": "Assist or Device Troubleshooter",
+  "goal": "The 10 slowest PCs to treat first, quick wins before structural fixes.",
+  "review": "PC slowness — priority list",
+  "deep": "PC slowness — full investigation",
+  "text": "Identify the top 10 workplace devices showing recurring PC slowness over the last 30 days, excluding servers and focusing only on devices matching the naming pattern [DEVICE NAMING PATTERN, e.g. LAP-*]. Prioritize devices with user-visible degradation, repeated performance issues, and quick-win remediation opportunities such as low disk space, pending reboot, excessive reboot age, Windows Update backlog, high CPU Queue Length, memory pressure, OneDrive synchronization backlog, or abnormal endpoint security and management tool activity. For each device, explain the main symptoms, likely causes, recurrence pattern, recommended action, expected benefit, operational effort, and follow-up indicator. Clearly distinguish recurring structural issues from isolated episodes.",
+  "aud": [
+   "desk",
+   "dex"
+  ]
+ },
+ {
+  "title": "SaaS experience watch",
+  "topic": "perf",
+  "schedule": "Weekly on Wednesday at 8:30 AM",
+  "expert": "Assist",
+  "goal": "Where Microsoft 365, Teams, SAP or Salesforce performance costs the most productivity.",
+  "review": "SaaS experience degradation review",
+  "deep": "SaaS experience — deep dive",
+  "text": "Analyze Microsoft 365, Teams, SAP, Salesforce, and browser-based SaaS performance to identify the applications, business populations, locations, devices, browsers, or network conditions generating the highest productivity degradation and collaboration inefficiencies. Recommend optimization and remediation opportunities.",
+  "aud": [
+   "dex"
+  ]
+ },
+ {
+  "title": "Collaboration quality watch",
+  "topic": "perf",
+  "schedule": "Weekly on Wednesday at 9:30 AM",
+  "expert": "Assist",
+  "goal": "The drivers behind poor calls and meetings: peripherals, drivers, Wi-Fi, VPN.",
+  "review": "Collaboration quality review",
+  "deep": "Collaboration quality — deep dive",
+  "text": "Detect the primary drivers of degraded collaboration experience across Teams, Zoom, Webex, headsets, webcams, docking stations, audio/video drivers, Wi‑Fi, VPN connectivity, and conferencing infrastructure. Prioritize the most impacted populations and recommend corrective actions with expected collaboration quality improvements.",
+  "aud": [
+   "dex",
+   "net"
+  ]
+ },
+ {
+  "title": "VDI experience watch",
+  "topic": "perf",
+  "schedule": "Weekly on Thursday at 9:30 AM",
+  "expert": "Assist",
+  "goal": "The VDI populations with the highest friction, from latency to profile loading.",
+  "review": "VDI experience review",
+  "deep": "VDI experience — deep dive",
+  "text": "Identify the VDI, AVD, Citrix, Horizon, and Windows 365 populations experiencing the highest digital friction by correlating latency, session instability, login delays, profile loading issues, GPU constraints, endpoint bottlenecks, roaming conditions, and infrastructure saturation indicators impacting virtual desktop experience.",
+  "aud": [
+   "dex",
+   "net"
+  ]
+ },
+ {
+  "title": "VPN & remote-work quality",
+  "topic": "net",
+  "aud": [
+   "net"
+  ],
+  "schedule": "Weekly on Wednesday at 9:00 AM",
+  "expert": "Assist",
+  "goal": "Where remote employees suffer, and whether the cause is the home network, the VPN or a corporate service.",
+  "text": "Assess network and VPN quality for remote employees over the last 7 days. Break the results down by country and, where available, by ISP or network type: connection failures, latency, packet loss, Wi-Fi signal quality, and VPN connection time or drops. Identify the 10 populations or locations with the worst experience and separate the likely causes: the employee's home network, VPN gateway or capacity, or specific corporate services. Recommend actions for the network team, ranked by the number of employees affected. If VPN or network data is not available in Nexthink for this tenant, say so and stop rather than estimating.",
+  "needs": "Needs network and VPN data"
+ },
+ {
+  "title": "Site network scorecard",
+  "topic": "net",
+  "aud": [
+   "net",
+   "ops"
+  ],
+  "schedule": "Weekly on Thursday at 9:00 AM",
+  "expert": "Assist",
+  "goal": "Office sites ranked by network experience, so network work goes where most employees benefit.",
+  "text": "Rank office locations by network experience over the last 7 days. For each of the [NUMBER OF SITES, e.g. 20] sites with the most devices, report Wi-Fi signal quality, network latency, DNS or connectivity failures, and collaboration call quality. Score each site green, amber or red against the fleet median, and highlight sites that are worse than the median on two or more measures. For each red site give the likely cause pattern (access point coverage, WAN, specific hours) and the number of employees affected. Close with the 3 sites where network work would improve the experience of the most employees.",
+  "needs": "Needs network data"
+ },
+ {
+  "title": "Pre-event readiness check",
+  "topic": "net",
+  "aud": [
+   "net",
+   "desk"
+  ],
+  "schedule": "One-time, 2 days before the event",
+  "expert": "Assist",
+  "goal": "Are the locations ready for an all-hands or live event? Status per site with fixes to apply first.",
+  "text": "Check readiness for [EVENT, e.g. company all-hands call] on [EVENT DATE], with attendees in [LOCATIONS OR POPULATIONS]. Using the last 14 days, assess collaboration quality (call and meeting quality, audio and video issues), network quality and endpoint health for each location or population. Flag devices with outdated or failing audio and video drivers, unstable collaboration applications, or repeated poor calls. For each location give a readiness status (ready, at risk or not ready) and the specific fixes to apply before the event, in priority order."
+ },
+ {
+  "title": "Office presence",
+  "topic": "net",
+  "aud": [
+   "hr",
+   "mgmt"
+  ],
+  "schedule": "Weekly on Monday at 9:30 AM",
+  "expert": "Assist",
+  "goal": "Aggregate device activity per site and weekday, for workplace planning. Never identifies people.",
+  "text": "Report office presence from device activity, in aggregate only. For each site over the last 7 days, show the number of distinct devices active on the corporate network by day of the week, the peak day, and the change against the previous 7 days. Identify sites where activity is consistently well below [CAPACITY OR TARGET] and the days with peaks. Never identify or list individual employees or devices, and suppress any group with fewer than 10 devices. Present the results as charts and short bullets for facilities and workplace planning.",
+  "needs": "Privacy review recommended"
+ },
+ {
+  "title": "Security exposure review",
+  "topic": "sec",
+  "schedule": "Weekly on Monday at 8:30 AM",
+  "expert": "Assist",
+  "goal": "Populations with the highest security exposure, ranked with estimated risk reduction.",
+  "review": "Security posture exposure review",
+  "deep": "Security posture — deep exposure analysis",
+  "text": "Identify the endpoint populations with the highest security exposure by correlating missing security controls, patch gaps, unhealthy security agents, outdated configurations, privilege risks, and operational hygiene weaknesses. Prioritize the highest-risk findings and recommend remediation actions with estimated risk reduction impact.",
+  "aud": [
+   "sec"
+  ]
+ },
+ {
+  "title": "Compliance drift check",
+  "topic": "sec",
+  "schedule": "Weekly on Tuesday at 9:00 AM",
+  "expert": "Assist",
+  "goal": "Where devices drift furthest from your operational and security standards.",
+  "review": "Compliance drift check",
+  "deep": "Compliance & configuration drift — deep dive",
+  "text": "Identify the device populations deviating most from enterprise operational and security standards across OS versions, policies, BIOS versions, drivers, applications, encryption states, and baseline configurations. Highlight configuration drift trends, operational risk accumulation, and remediation priorities.",
+  "aud": [
+   "sec"
+  ]
+ },
+ {
+  "title": "Shadow IT & AI usage detection",
+  "topic": "sec",
+  "schedule": "Weekly on Friday at 9:00 AM",
+  "expert": "Assist",
+  "goal": "Unmanaged SaaS, AI tools and extensions, with governance and data-leakage risk.",
+  "review": "Shadow IT & AI usage detection",
+  "deep": "Shadow IT & AI usage — deep dive",
+  "text": "Identify unmanaged SaaS platforms, AI tools, browser extensions, automation services, and unsanctioned workflows being adopted across the organization. Assess potential governance, security, compliance, privacy, and data leakage risks while highlighting evolving employee usage trends and emerging operational dependencies.",
+  "aud": [
+   "sec"
+  ]
+ },
+ {
+  "title": "Monthly patching status",
+  "topic": "sec",
+  "schedule": "Weekly on Monday at 8:00 AM",
+  "expert": "Assist",
+  "goal": "Coverage, failures and pending restarts for the current Windows KB cycle. Weekly runs track progress through the month.",
+  "review": "Monthly patching status overview",
+  "deep": "Monthly patching — full lifecycle audit",
+  "text": "Analyze the current monthly Windows KB patching cycle across the managed device estate. Identify total deployment coverage, devices that have not yet received the update, devices where installation failed or is pending restart, and populations with recurring patching failures. Segment results by OS version, device model, location, and business entity. Flag devices with the highest exposure risk based on patch age, criticality, and endpoint health context. Recommend prioritized remediation actions distinguishing quick wins from structural patching hygiene issues. At the start of each analysis, include the date and time and the KB reference for the current month's cumulative update.",
+  "aud": [
+   "sec"
+  ]
+ },
+ {
+  "title": "Daily patch compliance report",
+  "topic": "sec",
+  "schedule": "Daily at 7:30 AM",
+  "expert": "Assist",
+  "goal": "A two-minute compliance snapshot by country and department, compared with a week earlier.",
+  "review": "Patch compliance — quick daily pulse",
+  "text": "Retrieve the current patch compliance status across the entire device fleet.\n\n1. Report the number and percentage of devices in each state: Compliant, Non-Compliant, Pending Reboot, and Unknown.\n2. Break down compliance by country and by department, with counts and percentages for each state.\n3. Compare current compliance with the same measure 7 days earlier. Highlight any country or department where compliance dropped by more than 5 percentage points.\n4. Flag any country or department where overall compliance is below 80%.\n5. Summarize the key risks (large non-compliant populations, declining regions or departments, long-pending reboots) and recommend immediate actions.\n\nLead with the headline compliance rate and keep the report short enough to scan in two minutes.",
+  "aud": [
+   "sec"
+  ]
+ },
+ {
+  "title": "CVE exposure briefing",
+  "topic": "sec",
+  "schedule": "Weekly on Tuesday at 7:30 AM",
+  "expert": "Assist",
+  "goal": "Devices exposed to recent critical and high-severity CVEs, with concentration in sensitive populations.",
+  "review": "CVE exposure & vulnerability risk briefing",
+  "fromPack": "CVE exposure & vulnerability risk briefing",
+  "aud": [
+   "sec"
+  ]
+ },
+ {
+  "title": "Security tool health",
+  "topic": "sec",
+  "aud": [
+   "sec"
+  ],
+  "schedule": "Weekly on Monday at 9:00 AM",
+  "expert": "Assist",
+  "goal": "Devices where endpoint protection or encryption is stopped, outdated or silent.",
+  "text": "Find devices where security protection is degraded. Identify managed end-user devices where the endpoint security agent, antivirus or firewall is not running, is outdated, or has not reported recently, and devices where disk encryption is off or unknown. Report counts and rates by department, country and device type. Highlight concentrations in executive, finance, legal, HR and IT populations. List the 20 highest-risk devices with the missing control, how long it has been missing, and the recommended remediation. If a control is not visible in Nexthink for this tenant, list it as a data gap rather than estimating.",
+  "needs": "Needs security agent and encryption data"
+ },
+ {
+  "title": "End-of-support countdown",
+  "topic": "sec",
+  "aud": [
+   "sec",
+   "ops",
+   "mgmt"
+  ],
+  "schedule": "Weekly on Monday at 10:30 AM",
+  "expert": "Assist",
+  "goal": "What is unsupported today and what will be within 90 days, with upgrade waves in priority order.",
+  "text": "Build an end-of-support countdown for the device estate. Identify operating system versions and builds, browsers and Microsoft 365 Apps channels that are already out of support or will reach the end of servicing within 90 days. Count devices per item and per end-of-support date, and break them down by department and location. Flag concentrations in executive, finance, legal, HR and IT populations. Recommend upgrade waves in priority order, separating devices that can upgrade now from those blocked by hardware, low disk space or application incompatibility. Lead with the number of devices that are already unsupported."
+ },
+ {
+  "title": "Risky software watch",
+  "topic": "sec",
+  "aud": [
+   "sec"
+  ],
+  "schedule": "Daily at 8:30 AM",
+  "expert": "Assist",
+  "goal": "Remote-access tools, newly seen software and anything outside your approved list.",
+  "text": "Detect software that deserves a security review. Over the last 24 hours, identify (1) remote-access and remote-control tools such as [REMOTE TOOLS TO WATCH, e.g. AnyDesk, TeamViewer], (2) applications and browser extensions first seen in the fleet in the last 7 days, and (3) software outside [APPROVED SOFTWARE LIST OR CATEGORIES]. For each finding give the software, publisher, versions, number of devices and users, first-seen date and departments involved. Rank findings by risk (unknown publisher, remote access, speed of spread) and recommend for each one: investigate, allow or block. Lead with the number of new findings compared with the previous 7 days."
+ },
+ {
+  "title": "Audit evidence snapshot",
+  "topic": "sec",
+  "aud": [
+   "hr",
+   "sec"
+  ],
+  "schedule": "Weekly on Friday at 4:00 PM",
+  "expert": "Assist",
+  "goal": "A factual snapshot of endpoint controls for auditors. Also useful as a one-time run before an audit.",
+  "text": "Prepare an audit evidence snapshot of endpoint controls as of the run date. For each entity, country and device type, report: patch compliance against the current monthly cycle, operating system support status, endpoint security agent coverage and health, disk encryption coverage, and Nexthink Collector coverage. Give counts and percentages, list exceptions with device counts, and state the date and time of the data. Write in neutral, factual language suitable for an auditor: no recommendations and no speculation, and mark anything that cannot be measured in Nexthink as \"not available in Nexthink\".",
+  "needs": "Needs security and encryption data"
+ },
+ {
+  "title": "Emerging major incident scan",
+  "topic": "ops",
+  "schedule": "Hourly",
+  "expert": "Assist",
+  "goal": "Weak signals that may be an early major incident, with likely blast radius.",
+  "review": "Emerging major incident scan",
+  "deep": "Major incident signals — deep dive",
+  "text": "Detect weak operational signals indicating a potential emerging major incident by correlating degradations across infrastructure, applications, collaboration services, crash patterns, networking conditions, endpoint instability, and employee experience metrics. Estimate probable blast radius, impacted populations, business impact, and likely root causes.",
+  "aud": [
+   "desk"
+  ]
+ },
+ {
+  "title": "Alert noise review",
+  "topic": "ops",
+  "schedule": "Weekly on Tuesday at 9:30 AM",
+  "expert": "Assist",
+  "goal": "The noisiest, most ignored alerts, with tuning and suppression candidates.",
+  "review": "Alert noise & fatigue review",
+  "deep": "Alert fatigue — deep dive",
+  "text": "Analyze the last 30 days of monitoring alerts to identify the noisiest signals, ignored alerts, recurring false positives, and low-value monitors. Recommend suppressions, threshold tuning, prioritization improvements, and monitoring rationalization opportunities to reduce operational fatigue while preserving actionable visibility.",
+  "aud": [
+   "ops"
+  ]
+ },
+ {
+  "title": "Operational hygiene review",
+  "topic": "ops",
+  "schedule": "Weekly on Friday at 8:30 AM",
+  "expert": "Assist",
+  "goal": "Unhealthy collectors, outdated agents and technical debt that erode reliability.",
+  "review": "Operational hygiene review",
+  "deep": "Operational hygiene — deep dive",
+  "text": "Detect degraded collectors, unhealthy endpoints, unstable devices, outdated agents, recurring operational failures, excessive technical debt, unhealthy configurations, and observability gaps reducing platform reliability, DEX quality, automation efficiency, and operational resilience.",
+  "aud": [
+   "ops"
+  ]
+ },
+ {
+  "title": "Printing health sweep",
+  "topic": "ops",
+  "schedule": "Weekly on Monday at 9:00 AM",
+  "expert": "Assist or Device Troubleshooter",
+  "goal": "Print Spooler and PaperCut issues over 7 days, grouped by scope, with L2 escalation evidence.",
+  "deep": "Printing & PaperCut — fleet health sweep",
+  "text": "Identify devices across the fleet showing Print Spooler crashes, hangs, or stuck queues, and PaperCut client issues such as authentication failures, quota errors, or client connectivity problems, over the past 7 days. For each affected device, confirm whether the Print Spooler service is currently running, the installed PaperCut client version, and any recent application crashes or system events related to printing, and correlate the onset with recent package installs or updates. Distinguish single-user, single-device, and site-wide or server-side patterns, and prioritize devices where an automated remediation such as a Print Spooler reset is available. Summarize findings with the evidence needed for L2 escalation where automated remediation is not applicable.",
+  "aud": [
+   "desk",
+   "ops"
+  ]
+ },
+ {
+  "title": "Ticket radar",
+  "topic": "ops",
+  "aud": [
+   "desk"
+  ],
+  "schedule": "Daily at 7:30 AM",
+  "expert": "Assist",
+  "goal": "What is likely to generate calls today: new or accelerating failures, with a suggested first response.",
+  "text": "Identify what is most likely to generate service desk calls today. Compare the last 24 hours with the daily average of the previous 7 days for application crashes and freezes, slow logons and boots, and device instability. List the top 10 issues that are new or accelerating, prioritizing those that are user-visible and affect many users. For each issue give: what is failing, the number of users and devices affected, when it started, the most likely cause visible in the data, and a suggested first response for the service desk (a workaround or an available Remote Action). Lead with a one-line summary of the expected call drivers for today."
+ },
+ {
+  "title": "Remote Actions reliability review",
+  "topic": "auto",
+  "schedule": "Weekly on Tuesday at 8:00 AM",
+  "expert": "Assist",
+  "goal": "Failing or inefficient Remote Actions and the automation opportunities you are missing.",
+  "review": "Remote Actions reliability & automation review",
+  "deep": "Remote Actions — deep reliability analysis",
+  "text": "Analyze all Remote Actions executed during the last 30 days to identify reliability weaknesses, targeting inefficiencies, scheduling optimization opportunities, execution failures, collection coverage gaps, and missing automation opportunities from the Nexthink library. Estimate operational value generated and prioritize the highest-impact automation improvements.",
+  "aud": [
+   "ops"
+  ]
+ },
+ {
+  "title": "Self-healing opportunity scan",
+  "topic": "auto",
+  "schedule": "Weekly on Wednesday at 8:00 AM",
+  "expert": "Assist",
+  "goal": "Recurring incidents worth automating, with estimated ticket deflection.",
+  "review": "Self-healing opportunity scan",
+  "deep": "Self-healing opportunities — deep dive",
+  "text": "Identify the most repetitive incidents generating avoidable support demand and estimate their ticket deflection potential. Recommend the most impactful self-healing automations, Engage-assisted remediations, and proactive remediation opportunities with expected reduction in support effort and productivity impact.",
+  "aud": [
+   "ops",
+   "desk"
+  ]
+ },
+ {
+  "title": "Autonomous remediation readiness",
+  "topic": "auto",
+  "schedule": "Weekly on Thursday at 8:30 AM",
+  "expert": "Assist",
+  "goal": "Which existing remediations are reliable enough to run without a human in the loop.",
+  "review": "Autonomous remediation readiness check",
+  "deep": "Autonomous remediation — confidence deep dive",
+  "text": "Evaluate the reliability, safety, rollback patterns, targeting quality, execution stability, and success history of existing remediation automations. Identify which remediations are suitable for autonomous self-healing deployment with minimal operational risk and highest remediation confidence.",
+  "aud": [
+   "ops"
+  ]
+ },
+ {
+  "title": "Deployment readiness check",
+  "topic": "change",
+  "schedule": "Weekly on Monday at 10:00 AM",
+  "expert": "Assist",
+  "goal": "Devices and populations likely to fail an upcoming rollout. Schedule it while a rollout is being prepared.",
+  "review": "Deployment readiness review",
+  "deep": "Deployment risk — deep dive",
+  "text": "Assess organizational readiness for the upcoming [DEPLOYMENT, e.g. Windows 11 25H2 rollout starting on a given date] by identifying incompatible devices, unstable populations, risky drivers, application conflicts, low-storage endpoints, outdated BIOS versions, and operational hotspots likely to generate deployment failures or degraded employee experience.",
+  "aud": [
+   "ops",
+   "mgmt"
+  ]
+ },
+ {
+  "title": "Employee journey friction",
+  "topic": "change",
+  "schedule": "Weekly on Thursday at 10:00 AM",
+  "expert": "Assist",
+  "goal": "Friction across onboarding, migrations and refresh cycles.",
+  "review": "Employee journey friction review",
+  "deep": "Employee journey — deep dive",
+  "text": "Analyze onboarding journeys, migrations, refresh cycles, Windows transitions, hardware renewals, and transformation initiatives to identify friction points, productivity degradation moments, adoption blockers, operational bottlenecks, and populations at risk of poor experience throughout the employee lifecycle.",
+  "aud": [
+   "dex",
+   "hr"
+  ]
+ },
+ {
+  "title": "Feature adoption gaps",
+  "topic": "change",
+  "schedule": "Weekly on Friday at 10:00 AM",
+  "expert": "Assist",
+  "goal": "Underused Microsoft 365, Teams, Copilot and OneDrive capabilities, by population.",
+  "review": "Feature adoption gap review",
+  "deep": "Feature adoption — deep dive",
+  "text": "Analyze adoption maturity for Microsoft 365, Teams, Copilot, OneDrive, and collaboration features by identifying underused capabilities, adoption resistance patterns, feature usage gaps, behavioral segmentation trends, collaboration inefficiencies, and opportunities to accelerate digital transformation success.",
+  "aud": [
+   "dex",
+   "mgmt"
+  ]
+ },
+ {
+  "title": "Communication effectiveness",
+  "topic": "change",
+  "schedule": "Weekly on Friday at 10:30 AM",
+  "expert": "Assist",
+  "goal": "Which Engage campaigns and IT communications drive adoption, and where fatigue sets in.",
+  "review": "Communication & campaign effectiveness review",
+  "deep": "Communication effectiveness — deep dive",
+  "text": "Analyze the effectiveness of IT communications and Engage campaigns by identifying which messages, communication timing strategies, targeting methods, behavioral patterns, and engagement sequences generate the highest employee adoption, awareness, participation, and operational outcomes while minimizing communication fatigue.",
+  "aud": [
+   "dex",
+   "hr"
+  ]
+ },
+ {
+  "title": "Post-change health check",
+  "topic": "change",
+  "aud": [
+   "ops",
+   "desk",
+   "mgmt"
+  ],
+  "schedule": "One-time, the day after the change wave",
+  "expert": "Assist",
+  "goal": "Did a patch, upgrade or deployment make things worse? Before-and-after comparison against a control group.",
+  "text": "Check the health of [AFFECTED POPULATION] after the change \"[CHANGE DESCRIPTION]\" that was deployed on [CHANGE DATE]. Compare the 7 days before the change with the days since, for devices that received the change and, as a control group, similar devices that did not. Cover boot and logon duration, application crashes and freezes, the DEX score and its sub-scores, and any application or driver that appears only after the change. Conclude with a verdict of no regression, minor regression or significant regression, with the evidence, the most affected models or locations, and a recommendation to continue, pause or roll back the rollout."
+ },
+ {
+  "title": "Initiative progress tracker",
+  "topic": "change",
+  "aud": [
+   "mgmt",
+   "ops"
+  ],
+  "schedule": "Weekly on Friday at 3:00 PM",
+  "expert": "Assist",
+  "goal": "Windows 11, Copilot or Teams rollout: progress, blockers and whether the deadline is realistic.",
+  "text": "Track progress of [INITIATIVE, e.g. Windows 11 migration / Copilot adoption / new Teams rollout] against a target of [TARGET, e.g. 90% of eligible devices] by [DEADLINE DATE]. Report the current adoption rate, the change over the last 7 days and over the last 28 days, and adoption by department, country and device type. Identify blocked populations and the main blockers (hardware eligibility, low disk space, application incompatibility, user deferral). Forecast whether the deadline will be met at the recent pace, state the weekly run rate required to reach the target, and recommend actions for the 3 largest blockers."
+ },
+ {
+  "title": "New-joiner experience",
+  "topic": "change",
+  "aud": [
+   "hr",
+   "dex"
+  ],
+  "schedule": "Weekly on Wednesday at 8:00 AM",
+  "expert": "Assist",
+  "goal": "Is onboarding working? New joiners versus established colleagues, reported by group, never by person.",
+  "text": "Compare the digital experience of new joiners with the rest of the company. Treat as new joiners: [NEW JOINER DEFINITION, e.g. devices first seen in Nexthink in the last 30 days]. Compare their DEX score, boot and logon duration, application crashes, time to a first stable logon and collaboration quality with established users in the same department and location. Report by department and country only and do not list individuals. Highlight the biggest gaps, the likely causes (imaging, missing drivers, first-launch issues, network) and 3 improvements to the onboarding process."
+ },
+ {
+  "title": "Refresh budget planner",
+  "topic": "hw",
+  "aud": [
+   "proc",
+   "mgmt"
+  ],
+  "schedule": "Weekly on Monday at 9:00 AM",
+  "expert": "Assist",
+  "goal": "Replace now, replace within the period, or extend: device counts by model, department and location. Trends move slowly, so a one-time run before budget season also works.",
+  "text": "Build a hardware refresh plan for [PLANNING PERIOD, e.g. the next 12 months]. Segment managed end-user devices (exclude servers) into: replace now (older than [AGE LIMIT, e.g. 4 years] combined with poor performance headroom, degraded battery health or frequent crashes), replace within the period, and can extend. For each segment give device counts and shares by model, department and location, with the evidence (age, battery health, disk health, CPU and memory pressure, DEX impact). Highlight which devices could safely be kept another 6 to 12 months because they show healthy headroom. Lead with the number of devices in the \"replace now\" segment and the models that dominate it."
+ },
+ {
+  "title": "Hardware model reliability",
+  "topic": "hw",
+  "aud": [
+   "proc",
+   "ops"
+  ],
+  "schedule": "Weekly on Wednesday at 10:00 AM",
+  "expert": "Assist",
+  "goal": "Evidence for vendor talks and the next standard build: best and worst models, normalised per 100 devices.",
+  "text": "Compare hardware models by reliability over the last 30 days. For each model with at least [MINIMUM DEVICES, e.g. 30] devices, report the application crash rate, system crash and freeze rate, boot and logon duration, battery health, disk health and DEX score, normalised per 100 devices. Rank the models from best to worst and identify any model that is an outlier. Note whether outliers are explained by age, driver or BIOS versions, or user role rather than by the model itself. Conclude with a recommendation for the next standard build: models to keep buying, models to avoid, and models to raise with the vendor."
+ },
+ {
+  "title": "Hardware right-sizing",
+  "topic": "hw",
+  "aud": [
+   "proc",
+   "dex"
+  ],
+  "schedule": "Weekly on Thursday at 10:30 AM",
+  "expert": "Assist",
+  "goal": "Devices whose specification does not match how they are used, in both directions.",
+  "text": "Identify devices whose hardware does not match how they are used, over the last 30 days. Find under-specified devices (sustained high CPU or memory pressure, low disk space, frequent slowness) and over-specified devices (persistently low CPU, memory and disk use). Group by role or department and by model. Quantify the populations affected and recommend, for each: upgrade RAM or storage where possible, reassign devices between populations, or choose a different standard for that role at the next refresh. Lead with the two roles where a different specification would help the most."
+ },
+ {
+  "title": "Vendor accountability pack",
+  "topic": "hw",
+  "aud": [
+   "proc",
+   "ops"
+  ],
+  "schedule": "Weekly on Friday at 11:00 AM",
+  "expert": "Assist",
+  "goal": "Which vendors' software hurts stability most, as a factual pack for support escalations and renewals.",
+  "text": "Prepare an evidence pack on the impact of software vendors on stability over the last 30 days. Rank vendors and applications by the number of crashes, freezes and hangs, users affected and estimated productive time lost. For the top 5 vendors give: the affected versions, whether a newer version is already deployed and performs better, the crash patterns visible in the data, and the affected populations. Write a short factual summary per vendor that could accompany a support escalation, and flag vendors with a contractual lever such as an upcoming renewal: [UPCOMING RENEWALS, or \"none\"]."
+ },
+ {
+  "title": "Sustainability opportunity scan",
+  "topic": "fin",
+  "schedule": "Weekly on Friday at 9:30 AM",
+  "expert": "Assist",
+  "goal": "Energy waste, idle devices and lifecycle-extension opportunities.",
+  "review": "Sustainability opportunity review",
+  "deep": "Sustainability — deep dive",
+  "text": "Identify the largest sustainability and Green IT optimization opportunities across the workplace estate by analyzing power consumption, idle device patterns, refresh candidates, battery degradation, underutilized hardware, excessive resource consumption, and opportunities to extend device lifecycle while reducing carbon footprint and operational waste.",
+  "aud": [
+   "proc",
+   "mgmt"
+  ]
+ },
+ {
+  "title": "Cost optimization scan",
+  "topic": "fin",
+  "schedule": "Weekly on Friday at 8:00 AM",
+  "expert": "Assist",
+  "goal": "Dormant assets, unused licenses and oversized resources, with savings and effort.",
+  "review": "Cost optimization review",
+  "deep": "Cost optimization — deep dive",
+  "text": "Detect the largest workplace technology cost optimization opportunities across hardware, licensing, VDI resources, dormant assets, oversized devices, underused software, cloud consumption, support inefficiencies, and operational waste. Quantify potential savings, business impact, and prioritized quick wins.",
+  "aud": [
+   "proc",
+   "mgmt"
+  ]
+ },
+ {
+  "title": "License reclaim candidates",
+  "topic": "fin",
+  "aud": [
+   "proc",
+   "mgmt"
+  ],
+  "schedule": "Weekly on Monday at 10:00 AM",
+  "expert": "Assist",
+  "goal": "Installed but unused software, timed before renewals. Reported by department.",
+  "text": "Identify unused or underused software licenses that could be reclaimed before renewal. For [APPLICATIONS TO REVIEW, e.g. Adobe Acrobat Pro, Visio, Project, Power BI], list the users and devices where the application is installed but has not been used for [INACTIVITY PERIOD, e.g. 60 days], with last-use date, department and installation date. Summarize reclaimable installations per application and per department. If a cost per license is given here, estimate the savings: [COST PER LICENSE, or \"unknown\"]. Note devices that are no longer reporting to Nexthink. Report at department level and list individual users only in a separate appendix.",
+  "needs": "Needs application usage data"
+ },
+ {
+  "title": "Weekly value realization review",
+  "topic": "lead",
+  "schedule": "Weekly on Monday at 9:00 AM",
+  "expert": "Assist",
+  "goal": "Value delivered this week, value still on the table, and priorities for the next 30 days.",
+  "deep": "Value realization — quarterly assessment",
+  "text": "Produce a weekly Value Realization Review using an ultra-conservative methodology.\n\nCalculate the measurable value generated during the last 7 days from:\n- ticket avoidance,\n- Engage campaigns,\n- Remote Actions,\n- Nexthink Flows,\n- automated remediations,\n- investigation time reduction,\n- license optimization,\n- hardware lifecycle extension,\n- compliance improvements,\n- proactive incident prevention,\n- productivity restoration,\n- DEX improvements.\n\nFor each value stream:\n\n- describe the activity observed,\n- quantify the population impacted,\n- explain the methodology used,\n- clearly separate measured value from estimated value,\n- use the lowest reasonable assumptions whenever uncertainty exists.\n\nThen identify the remaining unrealized opportunities.\n\nEstimate the additional value that could be unlocked by:\n- activating unused Nexthink library capabilities,\n- expanding successful automations,\n- improving Remote Action coverage,\n- reclaiming unused licenses,\n- extending device lifecycle,\n- addressing recurring DEX degradations,\n- increasing self-healing adoption,\n- improving campaign targeting.\n\nRank all opportunities by:\n1. potential value,\n2. implementation effort,\n3. expected time to realization.\n\nProvide:\n\n- Weekly Value Generated (€)\n- Weekly IT Hours Saved\n- Weekly Productivity Hours Restored\n- Weekly Tickets Avoided\n- Remaining Addressable Value (€)\n- Top 10 Value Opportunities\n- Quick Wins (≤30 days)\n- Strategic Opportunities (>30 days)\n\nFinish with an executive summary suitable for a CIO or DEX Steering Committee, explaining:\n- value realized this week,\n- value still available,\n- recommended priorities for the next 30 days.\n\nUse concise, evidence-based, and highly conservative assumptions throughout.",
+  "aud": [
+   "mgmt"
+  ]
+ },
+ {
+  "title": "Executive risk & exposure briefing",
+  "topic": "lead",
+  "schedule": "Weekly on Monday at 7:00 AM",
+  "expert": "Assist",
+  "goal": "Critical and High risks across security, productivity, operations and VIP populations, in business terms.",
+  "review": "Executive risk & exposure briefing",
+  "fromPack": "Executive risk & exposure briefing",
+  "aud": [
+   "mgmt",
+   "sec"
+  ]
+ },
+ {
+  "title": "Technology debt & readiness report",
+  "topic": "lead",
+  "schedule": "Weekly on Monday at 7:30 AM",
+  "expert": "Assist",
+  "goal": "Aging hardware, unsupported OS and collector blind spots, with business risk attached.",
+  "review": "Weekly technology debt & strategic readiness report",
+  "fromPack": "Weekly technology debt & strategic readiness report",
+  "aud": [
+   "mgmt",
+   "proc"
+  ]
+ },
+ {
+  "title": "What changed this week",
+  "topic": "lead",
+  "aud": [
+   "mgmt",
+   "dex"
+  ],
+  "schedule": "Weekly on Monday at 7:45 AM",
+  "expert": "Assist",
+  "goal": "A one-page brief: the biggest improvements and regressions, and three decisions for the week.",
+  "text": "Summarize what changed most in the digital workplace over the last 7 days compared with the 7 days before. Cover the DEX score and its sub-scores, application crashes and freezes, boot and logon duration, collaboration quality, and patch compliance. List the 5 biggest improvements and the 5 biggest regressions across populations, applications and locations, each with the size of the change, the number of users affected and the likely driver. Finish with 3 decisions or actions for IT leadership this week. The report must fit on one page: a short headline, the two ranked lists, then the three actions."
+ },
+ {
+  "title": "Digital SLO tracker",
+  "topic": "lead",
+  "aud": [
+   "mgmt",
+   "ops"
+  ],
+  "schedule": "Weekly on Monday at 8:15 AM",
+  "expert": "Assist",
+  "goal": "Your own digital service targets: met or missed, and who is dragging each one down.",
+  "text": "Track digital service levels against targets over the last 7 days. Targets: [TARGETS, e.g. median boot time under 45 s; median logon time under 20 s; fewer than 2 application crashes per 100 devices per day; DEX score above 7.5]. For each target report the current value, the value for the previous 7 days, the trend, and whether the target is met. For each missed target list the 3 populations, locations or device models contributing most to the miss. Give an overall status of green (all targets met), amber (one missed) or red (two or more missed), and 3 recommended actions."
+ },
+ {
+  "title": "Regional league table",
+  "topic": "lead",
+  "aud": [
+   "mgmt",
+   "dex"
+  ],
+  "schedule": "Weekly on Tuesday at 8:15 AM",
+  "expert": "Assist",
+  "goal": "The same scorecard per country or business unit, so regional leads see where they stand.",
+  "text": "Produce a league table of [GROUPING, e.g. countries / business units / regions] over the last 7 days. For each group show the DEX score, boot and logon duration, application crash rate, collaboration quality and patch compliance, plus the rank and the change in rank versus the previous 7 days. Highlight the 3 best performers and what they do differently (device mix, OS version, network), and the 3 lowest performers with their largest contributing factor. Show groups with fewer than [MINIMUM DEVICES, e.g. 50] devices separately. Keep the tone constructive and factual."
+ },
+ {
+  "title": "Spark — daily pulse",
+  "topic": "spark",
+  "aud": [
+   "spark",
+   "desk"
+  ],
+  "schedule": "Daily at 8:00 AM",
+  "expert": "Assist",
+  "goal": "Yesterday's Spark conversations at a glance: volume and outcomes, with a green, amber or red status.",
+  "text": "Run a daily Spark conversation summary for the past 24 hours. Retrieve: total conversation count and outcome distribution (resolved, escalated, abandoned, non_support) with rates. Render a bar chart of the outcomes. Close with a one-paragraph status: green if resolution rate is above 70% and abandon rate is below 20%, amber if one metric drifts outside those thresholds, red if both breach them simultaneously."
+ },
+ {
+  "title": "Spark — weekly abandonment analysis",
+  "topic": "spark",
+  "aud": [
+   "spark"
+  ],
+  "schedule": "Weekly on Monday at 8:30 AM",
+  "expert": "Assist",
+  "goal": "Why conversations are abandoned, which themes are growing, and three ways to reduce the rate next week.",
+  "text": "Every week, analyze Spark agent conversations from the past 7 days, focusing exclusively on abandoned conversations. Retrieve: count and rate of abandons, breakdown of abandon reasons (unresolved, clarification_pending, approval_pending, action_failed), and the full list of intents behind abandoned conversations. Group intents into thematic clusters (performance, connectivity, collaboration tools, access & accounts, hardware). Render a bar chart of abandon reasons. Identify which clusters are growing compared to the previous 7 days and flag any new intent cluster appearing for the first time. Close with 3 prioritized recommendations to reduce the abandon rate the following week."
+ },
+ {
+  "title": "Spark — weekly escalation tracker",
+  "topic": "spark",
+  "aud": [
+   "spark",
+   "desk"
+  ],
+  "schedule": "Weekly on Monday at 9:00 AM",
+  "expert": "Assist",
+  "goal": "What Spark escalates and why: recurring gaps to close with a Remote Action or KB article, or a scope decision.",
+  "text": "Every week, retrieve all escalated Spark agent conversations from the past 7 days. List every escalated intent and categorize each into one of three structural buckets: (1) Active Directory / account rights, (2) physical hardware diagnosis, (3) out-of-scope application or infrastructure. Count escalations per bucket. Render a column chart of escalations by bucket. Identify any intent that has been escalated more than once over the past 30 days — these are recurring gaps requiring a permanent fix. Close with a short action plan: which gaps can be closed by adding a remote action or KB article, and which require a formal scope extension decision."
+ },
+ {
+  "title": "Spark — weekly executive summary",
+  "topic": "spark",
+  "aud": [
+   "spark",
+   "mgmt"
+  ],
+  "schedule": "Weekly on Friday at 5:00 PM",
+  "expert": "Assist",
+  "goal": "A charts-and-bullets wrap-up of the week: what worked, what regressed, top three actions.",
+  "text": "Every Friday, produce a full weekly executive summary of Spark activity covering the past 7 days. Retrieve: total conversation volume by day (line chart), outcome rates (resolved, abandoned, escalated, non_support), top 5 intents by volume, resolution reasons breakdown (instructions_provided, remediation_applied, request_link_provided, confirmed_by_user), and abandon reasons breakdown. Structure the output as: (1) Week at a glance — 3 key numbers, (2) What worked well, (3) What regressed, (4) Top 3 actions for next week. Keep the tone executive: concise, evidence-based, no raw data tables — charts and bullet points only."
+ },
+ {
+  "title": "Spark — 30-day conversation analysis",
+  "topic": "spark",
+  "aud": [
+   "spark",
+   "mgmt"
+  ],
+  "schedule": "Weekly on Wednesday at 9:00 AM",
+  "expert": "Assist",
+  "goal": "The full 30-day deep dive with a prioritized P1 to P4 plan. Heavy, so run weekly or as a one-time check before a review.",
+  "text": "Perform a detailed analysis of Spark agent conversations over the past 30 days. Retrieve and compare: total conversation volume with daily trends, outcome distribution (resolved, escalated, abandoned, non-support) with rates, conversation types (incident, request, question, non-support), outcome reasons broken down by resolved and abandoned, intents behind escalated and abandoned conversations, average duration and number of interactions, and channel distribution. Cross-tabulate outcomes against conversation types to identify where failures concentrate. Synthesize all findings into emerging trends, and close with a prioritized action plan (P1 to P4) covering knowledge base gaps, missing remote actions, dialogue flow issues, pending approval workflows, and production-readiness risks."
+ }
+];
+
+function renderTaskLibrary() {
+  const c = document.getElementById('task-library');
+  taskLibrary.forEach(t => {
+    let base = t.text || '';
+    if (t.fromPack) { const p = promptPacks.find(x => x.label === t.fromPack); base = p ? p.text : ''; }
+    const text = base.replace(/\s+$/, '') + '\n\n' + RUN_RULES;
+    const el = makePromptCard(text, t.title, 'task', 'tasks', 'Scheduled task');
+    el.dataset.topic = t.topic;
+    el.dataset.aud = t.aud.join(' ');
+    t._id = el.id;
+    const tp = TASK_TOPICS[t.topic];
+    const meta = document.createElement('div');
+    meta.className = 'task-meta';
+    meta.innerHTML =
+      `<span class="task-chip sched"><i class="ti ti-clock-play"></i>${escapeHtml(t.schedule)}</span>` +
+      `<span class="task-chip"><i class="ti ti-sparkles"></i>${escapeHtml(t.expert)}</span>` +
+      `<span class="task-chip"><i class="ti ${tp.icon}"></i>${escapeHtml(tp.label)}</span>` +
+      `<span class="task-chip"><i class="ti ti-users"></i>${escapeHtml(t.aud.map(a => TASK_AUDIENCES[a]).join(', '))}</span>` +
+      (t.needs ? `<span class="task-chip needs"><i class="ti ti-alert-circle"></i>${escapeHtml(t.needs)}</span>` : '');
+    const goal = document.createElement('p');
+    goal.className = 'task-goal';
+    goal.textContent = t.goal;
+    const pre = el.querySelector('.prompt-text');
+    el.insertBefore(meta, pre);
+    el.insertBefore(goal, pre);
+    c.appendChild(el);
+  });
+  document.getElementById('task-count').textContent = taskLibrary.length;
+}
+
+let _taskTopic = 'all', _taskAud = 'all';
+
+function renderTaskFilters() {
+  const mk = (strip, kind, key, label, icon) => {
+    const b = document.createElement('button');
+    b.className = 'tfilter-btn';
+    b.dataset.kind = kind; b.dataset.key = key;
+    b.innerHTML = (icon ? `<i class="ti ${icon}"></i> ` : '') + escapeHtml(label);
+    b.onclick = () => filterTasks(kind, key);
+    strip.appendChild(b);
+  };
+  const topics = document.getElementById('task-filter-topic');
+  const auds = document.getElementById('task-filter-aud');
+  mk(topics, 'topic', 'all', 'All', null);
+  Object.entries(TASK_TOPICS).forEach(([k, v]) => mk(topics, 'topic', k, v.label, v.icon));
+  mk(auds, 'aud', 'all', 'Everyone', null);
+  Object.entries(TASK_AUDIENCES).forEach(([k, v]) => mk(auds, 'aud', k, v));
+  applyTaskFilters();
+}
+
+function filterTasks(kind, key) {
+  if (kind === 'topic') _taskTopic = key; else _taskAud = key;
+  applyTaskFilters();
+}
+function resetTaskFilters() { _taskTopic = 'all'; _taskAud = 'all'; applyTaskFilters(); }
+
+function applyTaskFilters() {
+  document.querySelectorAll('.tfilter-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.key === (b.dataset.kind === 'topic' ? _taskTopic : _taskAud));
+  });
+  let shown = 0;
+  document.querySelectorAll('#task-library .prompt-card').forEach(card => {
+    const okT = _taskTopic === 'all' || card.dataset.topic === _taskTopic;
+    const okA = _taskAud === 'all' || card.dataset.aud.split(' ').includes(_taskAud);
+    card.style.display = (okT && okA) ? '' : 'none';
+    if (okT && okA) shown++;
+  });
+  document.getElementById('task-count-line').textContent =
+    shown === taskLibrary.length ? `${shown} tasks` : `Showing ${shown} of ${taskLibrary.length} tasks`;
+  document.getElementById('task-empty').style.display = shown ? 'none' : 'block';
+}
+
+// Cross-link each scheduled task with its interactive prompt and its deep dive
+function linkTwins() {
+  const packCards = {};
+  document.querySelectorAll('#prompt-pack-list .prompt-card').forEach(c => {
+    const l = c.querySelector('.plabel');
+    if (l) packCards[l.textContent.trim()] = c;
+  });
+  const mkLink = (icon, text, targetId) => {
+    const b = document.createElement('button');
+    b.className = 'twin-link';
+    b.innerHTML = `<i class="ti ${icon}"></i> ${text}`;
+    b.onclick = e => { e.stopPropagation(); navigateToAnchor(targetId); };
+    return b;
+  };
+  taskLibrary.forEach(t => {
+    const card = document.getElementById(t._id);
+    if (!card) return;
+    const rev = t.review && packCards[t.review];
+    const deep = t.deep && packCards[t.deep];
+    if (rev || deep) {
+      const row = document.createElement('div');
+      row.className = 'card-twin';
+      if (rev) row.appendChild(mkLink('ti-message-bolt', 'Try it now in a conversation', rev.id));
+      if (deep) row.appendChild(mkLink('ti-zoom-scan', 'Go deeper', deep.id));
+      card.appendChild(row);
+    }
+    if (rev) {
+      const row = document.createElement('div');
+      row.className = 'card-twin';
+      row.appendChild(mkLink('ti-clock-play', 'Available as a scheduled task', t._id));
+      rev.appendChild(row);
+    }
+  });
+}
+
+// ── SUB-NAVIGATION ───────────────────────────────────────────────────────────
+function showPane(sectionId, paneId) {
+  const root = document.getElementById('section-' + sectionId);
+  if (!root) return;
+  root.querySelectorAll(':scope > .subpane').forEach(p => p.classList.toggle('active', p.id === 'pane-' + paneId));
+  root.querySelectorAll(':scope > .subnav .subnav-btn').forEach(b => b.classList.toggle('active', b.dataset.pane === paneId));
+}
+function goTo(sectionId, paneId) {
+  showSection(sectionId, document.querySelector(`.nav-btn[data-section="${sectionId}"]`));
+  if (paneId) showPane(sectionId, paneId);
+}
+
 function showSection(id, btn) {
   // Clear search if active
   const searchInput = document.getElementById('global-search');
@@ -2111,8 +3388,14 @@ function navigateToAnchor(id) {
     const sectionId = hostSection.id.replace('section-', '');
     const navBtn = document.querySelector(`.nav-btn[data-section="${sectionId}"]`);
     showSection(sectionId, navBtn);
+    const hostPane = el.closest('.subpane');
+    if (hostPane) showPane(sectionId, hostPane.id.replace('pane-', ''));
 
-    if (sectionId === 'prompts') {
+    if (sectionId === 'tasks' && el.dataset.topic) {
+      resetTaskFilters();
+    }
+
+    if (sectionId === 'prompts' && el.dataset.cat) {
       const cat = el.dataset.cat;
       const filterBtns = [...document.querySelectorAll('.filter-strip .filter-btn')];
       const targetBtn = filterBtns.find(b => b.getAttribute('onclick') === `filterPrompts('${cat}', this)`);
@@ -2211,6 +3494,12 @@ function collectAllPrompts() {
     if (e) all.push(e);
   });
 
+  // Scheduled tasks
+  document.querySelectorAll('#task-library .prompt-card').forEach(c => {
+    const e = cardEntry(c, 'tasks', 'Scheduled task', SECTION_META.tasks.color, SECTION_META.tasks.bg);
+    if (e) all.push(e);
+  });
+
   return all;
 }
 
@@ -2291,7 +3580,7 @@ function handleSearch(query) {
   const sectionNames = {
     start: 'Getting started', prompts: 'Prompt packs',
     investigation: 'Deep investigation', value: 'Business value',
-    actions: 'Acting at scale',
+    actions: 'Acting at scale', tasks: 'Scheduled tasks',
   };
 
   results.forEach(p => {
@@ -2382,6 +3671,9 @@ renderPromptPacks();
 renderInvestigation();
 renderValue();
 renderActions();
+renderTaskLibrary();
+renderTaskFilters();
+linkTwins();
 upgradeStaticCard('faq-automation-ready-prompt', 'Automation-ready prompt', 'faq');
 
 // FAQ toggle behavior
@@ -2405,7 +3697,7 @@ if (location.hash) {
 
 </script>
 <footer class="page-footer">
-  created by Christophe Gagin - Nexthink | last updated on 23.07.2026
+  created by Christophe Gagin - Nexthink | last updated on 30.09.2026
 </footer>
 
 <div class="qr-overlay" id="qr-overlay" onclick="if(event.target===this) closeQrModal()">
