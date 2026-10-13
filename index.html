@@ -2641,6 +2641,74 @@ function renderActions() {
 
 // ── SCHEDULED TASKS ──────────────────────────────────────────────────────────
 const RUN_RULES = "Run rules for this scheduled task:\n- Open the report with the run date and time and the explicit start and end dates of the analysis window.\n- Treat this run as standalone: do not refer to earlier reports or prior conversations.\n- Recommend and prioritize only; do not assume any change has been made.\n- State any data gap that limits confidence.";
+// Analysis-type tasks: the standalone rule is replaced by a history rule, adapted per task: [what to compare, what to total]
+const RUN_RULES_HEAD = "Run rules for this scheduled task:\n- Open the report with the run date and time and the explicit start and end dates of the analysis window.\n";
+const RUN_RULES_TAIL = "- Recommend and prioritize only; do not assume any change has been made.\n- State any data gap that limits confidence.";
+const TREND_RULES = {
+ "Productivity loss watch": ["productive time lost and estimated impact per population", "productive time lost and number of fixes recommended"],
+ "Structurally unstable devices — top 10": ["ranking, new entries and exits, and crash counts", "distinct devices flagged and total crashes"],
+ "Silent fatigue populations": ["populations flagged and their friction signals", "distinct populations flagged"],
+ "Hidden friction scan": ["friction signals, new versus resolved", "friction signals found and populations affected"],
+ "VIP experience watch": ["VIP experience scores and affected VIPs", "VIPs affected and incidents"],
+ "Weekly DEX health & improvement review": ["DEX score, its drivers and the actions listed", "score change and improvements delivered"],
+ "DEX score drop — root cause": ["score movement and root causes", "score change and recurring causes"],
+ "Repeat offenders": ["offender ranking, new versus recovered", "distinct repeat offenders and total recurrences"],
+ "Recurring PC slowness — top 10": ["ranking, new entries and exits, and slowness metrics", "distinct devices flagged and slowness events"],
+ "SaaS experience watch": ["application scores and degradation events", "degradation events per application"],
+ "Collaboration quality watch": ["call and meeting quality metrics", "poor-quality calls and affected users"],
+ "VDI experience watch": ["session experience metrics and affected users", "degraded sessions and affected users"],
+ "VPN & remote-work quality": ["connection quality metrics and affected users", "poor-quality sessions and affected users"],
+ "Site network scorecard": ["site scores and ranking", "sites degraded and incidents"],
+ "Office presence": ["attendance and occupancy per site", "attendance totals per site"],
+ "Security exposure review": ["exposure findings and affected devices", "findings opened, closed and still open"],
+ "Compliance drift check": ["compliance rates and drifting devices", "devices that drifted and were remediated"],
+ "Shadow IT & AI usage detection": ["unsanctioned applications and users", "distinct applications detected and users involved"],
+ "Monthly patching status": ["patch coverage and pending devices", "devices patched and still pending"],
+ "Daily patch compliance report": ["compliance rate and non-compliant devices", "devices brought into compliance"],
+ "CVE exposure briefing": ["CVEs, exposed devices and severity", "CVEs seen, remediated and still open"],
+ "Security tool health": ["agent and tool health per device", "unhealthy devices found and fixed"],
+ "End-of-support countdown": ["devices and software nearing end of support", "items that reached end of support and were replaced"],
+ "Risky software watch": ["risky software and install base", "distinct risky titles and removals"],
+ "Emerging major incident scan": ["incidents detected and affected users", "incidents detected, confirmed and closed"],
+ "Alert noise review": ["alert volume and noisy rules", "alerts raised and rules tuned"],
+ "Operational hygiene review": ["hygiene findings per area", "findings opened and closed"],
+ "Printing health sweep": ["printer failures and affected users", "failures and printers affected"],
+ "Low disk space — top 20 cleanup priorities": ["free space, reclaimable size per folder and the devices ranked", "devices flagged, space reclaimed and devices recovered above the free space threshold"],
+ "Ticket radar": ["ticket volume, top categories and trends", "tickets by category"],
+ "Remote Actions reliability review": ["execution volume, success and failure rates", "executions, failures and actions fixed"],
+ "Self-healing opportunity scan": ["automation candidates and their potential", "candidates identified and automated"],
+ "Autonomous remediation readiness": ["readiness criteria met per automation", "automations ready and enabled"],
+ "Deployment readiness check": ["readiness per population and blockers", "populations ready and blockers cleared"],
+ "Employee journey friction": ["friction per journey step", "friction events and journeys improved"],
+ "Feature adoption gaps": ["adoption rates and gaps per feature", "adoption gain per feature"],
+ "Communication effectiveness": ["campaign reach, engagement and outcomes", "campaigns run, reach and engagement"],
+ "Initiative progress tracker": ["progress against targets per initiative", "progress and value delivered"],
+ "New-joiner experience": ["new-joiner experience scores and issues", "new joiners assessed and issues found"],
+ "Hardware model reliability": ["reliability per model and failure rates", "failures per model"],
+ "Hardware right-sizing": ["over- and under-provisioned devices", "devices right-sized and savings"],
+ "Vendor accountability pack": ["vendor and model metrics against targets", "incidents attributed per vendor"],
+ "Sustainability opportunity scan": ["energy and carbon figures and opportunities", "energy and carbon saved"],
+ "Cost optimization scan": ["savings opportunities", "savings identified and realized"],
+ "License reclaim candidates": ["reclaim candidates and unused licenses", "licenses reclaimed and savings"],
+ "Weekly value realization review": ["value metrics against the baseline", "value delivered"],
+ "Executive risk & exposure briefing": ["top risks and exposure levels", "risks opened, mitigated and still open"],
+ "Technology debt & readiness report": ["technology debt indicators and readiness", "debt reduced and remaining"],
+ "What changed this week": ["key metrics against the previous analysis, highlighting what changed", "net change since the first analysis"],
+ "Digital SLO tracker": ["SLO attainment and breaches", "breaches and error-budget consumption"],
+ "Regional league table": ["regional ranking and scores", "score changes per region"],
+ "Spark — daily pulse": ["conversation volume, outcomes and rates", "conversations and outcomes"],
+ "Spark — weekly abandonment analysis": ["abandonment rate, reasons and intents", "abandoned conversations and reasons"],
+ "Spark — weekly escalation tracker": ["escalation rate, reasons and intents", "escalated conversations and reasons"],
+ "Spark — weekly executive summary": ["headline Spark KPIs", "conversations, resolutions and escalations"],
+ "Spark — 30-day conversation analysis": ["outcome distribution, types, trends and priorities", "conversations and priority actions"]
+};
+function buildRunRules(title) {
+  const t = TREND_RULES[title];
+  if (!t) return RUN_RULES;
+  return RUN_RULES_HEAD +
+    "- Treat each run as a new analysis: state its date and time, compare the results with the previous analysis of this task (" + t[0] + "), and provide cumulative totals since the first analysis (" + t[1] + "). If there is no previous analysis, say so and set this run as the baseline.\n" +
+    RUN_RULES_TAIL;
+}
 const TASK_TOPICS = {"exp": {"label": "Experience & DEX", "icon": "ti-mood-happy"}, "perf": {"label": "Performance & apps", "icon": "ti-gauge"}, "net": {"label": "Network & sites", "icon": "ti-network"}, "sec": {"label": "Security & patching", "icon": "ti-shield-check"}, "ops": {"label": "IT operations", "icon": "ti-server-cog"}, "auto": {"label": "Automation", "icon": "ti-bolt"}, "change": {"label": "Change & adoption", "icon": "ti-rocket"}, "hw": {"label": "Hardware & lifecycle", "icon": "ti-device-laptop"}, "fin": {"label": "FinOps & Green IT", "icon": "ti-coin"}, "lead": {"label": "Leadership reporting", "icon": "ti-presentation"}, "spark": {"label": "Nexthink Spark", "icon": "ti-message-chatbot"}};
 const TASK_AUDIENCES = {"dex": "Digital workplace", "desk": "Service desk", "ops": "IT operations", "net": "Network", "sec": "Security", "mgmt": "IT leadership", "proc": "Procurement & finance", "hr": "HR & compliance", "spark": "Spark owners"};
 const taskLibrary = [
@@ -3030,6 +3098,19 @@ const taskLibrary = [
   ]
  },
  {
+   "title": "Low disk space — top 20 cleanup priorities",
+   "topic": "ops",
+   "schedule": "Weekly on Tuesday at 10:00 AM",
+   "expert": "Assist or Device Troubleshooter",
+   "goal": "The 20 devices with the least system drive free space, ranked by urgency with reclaimable folder sizes and a cleanup recommendation.",
+   "text": "First, identify the top 20 devices with the lowest system drive free space across the fleet over the past 7 days. Then, for those devices, retrieve the latest execution outputs from the remote actions Get-User-Folder-Size and Get System Folder Sizes to identify the largest reclaimable folders (including Local Temp, Downloads, Recycle Bin, MS Teams Cache, Edge Cache, Chrome Cache, App Data, Crash Dumps, and Software Distribution). Cross-reference those folder sizes with each device's current disk usage and free space from the volume inventory (capacity and usage percentage) to calculate actual free space in GB. Rank the devices by urgency — prioritising those with the least free space and the most reclaimable data — and produce a combined priority table showing device name, capacity, free space, % used, per-folder reclaimable sizes, total reclaimable space, and a cleanup recommendation. Visualise the results as a grouped bar chart comparing free space against reclaimable folder sizes per device.",
+   "needs": "Needs the Get-User-Folder-Size and Get System Folder Sizes remote actions",
+   "aud": [
+     "desk",
+     "ops"
+   ]
+ },
+ {
   "title": "Ticket radar",
   "topic": "ops",
   "aud": [
@@ -3402,7 +3483,7 @@ function renderTaskLibrary() {
   taskLibrary.forEach(t => {
     let base = t.text || '';
     if (t.fromPack) { const p = promptPacks.find(x => x.label === t.fromPack); base = p ? p.text : ''; }
-    const text = base.replace(/\s+$/, '') + '\n\n' + RUN_RULES;
+    const text = base.replace(/\s+$/, '') + '\n\n' + buildRunRules(t.title);
     const el = makePromptCard(text, t.title, 'task', 'tasks', 'Scheduled task');
     el.dataset.topic = t.topic;
     el.dataset.aud = t.aud.join(' ');
@@ -3529,6 +3610,7 @@ function showSection(id, btn) {
   // Update search restore state
   _lastSection = id;
   _lastNavBtn  = btn || null;
+  if (TAB_IDS.includes(id) && location.hash.slice(1) !== id) history.replaceState(null, '', '#' + id);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -3581,7 +3663,14 @@ function navigateToAnchor(id) {
   }, 60);
 }
 
-window.addEventListener('hashchange', () => navigateToAnchor(decodeURIComponent(location.hash.slice(1))));
+// Direct links to the main tabs: index.html#start, #prompts, #tasks, #faq, #favorites
+const TAB_IDS = ['start', 'prompts', 'tasks', 'faq', 'favorites'];
+function routeHash() {
+  const h = decodeURIComponent(location.hash.slice(1));
+  if (!h) return;
+  if (TAB_IDS.includes(h)) goTo(h); else navigateToAnchor(h);
+}
+window.addEventListener('hashchange', routeHash);
 
 
 
@@ -3846,9 +3935,7 @@ updateFavoritesBadge();
 renderRecents();
 
 // Deep-link to a shared prompt on first load, if the URL carries an anchor
-if (location.hash) {
-  navigateToAnchor(decodeURIComponent(location.hash.slice(1)));
-}
+if (location.hash) routeHash();
 
 </script>
 <footer class="page-footer">
