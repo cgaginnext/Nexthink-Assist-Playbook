@@ -1940,6 +1940,7 @@ const promptPacks = [
   { category: "security", label: "Security posture exposure review", text: "Identify devices with risky security posture drift and explain the biggest compliance gaps." },
   { category: "security", label: "Security posture — deep exposure analysis", text: "Identify the endpoint populations with the weakest security posture by correlating missing patches, unhealthy security agents, disabled protections, unsupported operating systems, local admin exposure, encryption gaps, stale devices, outdated BIOS versions, and operational hygiene weaknesses. For each population, estimate relative exposure severity, identify the primary risk drivers, explain the likely security implications, and recommend the most impactful remediation priorities with expected risk reduction outcomes." },
   { category: "security", label: "Compliance drift check", text: "Identify the device populations deviating most from enterprise operational and security standards across OS versions, policies, BIOS versions, drivers, applications, encryption states, and baseline configurations. Highlight configuration drift trends, operational risk accumulation, and remediation priorities." },
+  { category: "security", label: "PHP critical vulnerability — exposure & exploitation assessment", text: "Critical vulnerabilities have just been disclosed regarding PHP. No mitigations — patching is the only fix. Safe versions: 8.5.12, 8.4.27, 8.3.36, 8.2.35. PHP 7 and earlier are end-of-life. Please run this full assessment in sequence:\n\n1. Full PHP inventory — all devices that executed any PHP binary (php, php-fpm, php-cgi, or any binary with \"php\" in the name) in the past 30 days. Include: device name, binary name, version, OS, last seen, last logged-in user. Flag missing versions as unpatched.\n\n2. Risk tiering — separate php-fpm / mod_php / php-cgi (highest risk) from other PHP binaries. Cross-check installed packages containing \"php\" to catch installs that haven't executed recently.\n\n3. Patched vs. unpatched — classify versions as patched, unpatched, or unknown. Flag PHP 7.x and earlier as end-of-life. Give a summary count across all three states.\n\n4. Blast radius — total affected devices, breakdown by location and department, and any devices where PHP is running alongside unusual outbound network activity (potential early exploitation signal).\n\n5. Exploitation indicators — on PHP-running devices in the past 7 days: any shell processes (cmd.exe, powershell.exe, bash, sh) spawned by php or php-fpm; any crashes suggesting memory corruption; any triggered alerts.\n\n6. Blind spots — devices running PHP where the Collector hasn't reported in the past 24 hours. Also list any PHP packages installed or updated in the past 7 days (may indicate patching already underway).\n\n7. Prioritized remediation list — ranked: (1) php-fpm/mod_php/php-cgi, (2) unknown version, (3) confirmed unpatched. Include device name, binary, version, OS, location, last logged-in user.\n\n8. Executive summary — total exposed devices, risk tier breakdown, exploitation indicators found (yes/no), and top immediate actions.\n\nRecommend useful alerts and monitors to set up, as well as Engage campaigns or Flow workflows." },
   { category: "security", label: "Compliance & configuration drift — deep dive", text: "Identify the device populations drifting furthest away from enterprise standards by correlating OS version drift, outdated BIOS and drivers, security policy inconsistencies, application sprawl, disabled controls, unsupported software versions, compliance gaps, and operational instability indicators. Highlight structural drift trends across locations, hardware models, business entities, and lifecycle stages, then prioritize the remediation opportunities creating the highest operational and security risk reduction impact." },
   { category: "security", label: "Shadow IT & AI usage detection", text: "Identify unmanaged SaaS platforms, AI tools, browser extensions, automation services, and unsanctioned workflows being adopted across the organization. Assess potential governance, security, compliance, privacy, and data leakage risks while highlighting evolving employee usage trends and emerging operational dependencies." },
   { category: "security", label: "Shadow IT & AI usage — deep dive", text: "Detect unmanaged SaaS applications, AI tools, browser extensions, automation platforms, and unsanctioned employee workflows across the organization. Correlate usage patterns with business entities, browser activity, collaboration behaviors, and data exposure indicators to identify governance, compliance, and data leakage risks. Highlight emerging adoption patterns, risky populations, and shadow workflows likely to create operational or regulatory exposure." },
@@ -2667,6 +2668,7 @@ const TREND_RULES = {
  "Monthly patching status": ["patch coverage and pending devices", "devices patched and still pending"],
  "Daily patch compliance report": ["compliance rate and non-compliant devices", "devices brought into compliance"],
  "CVE exposure briefing": ["CVEs, exposed devices and severity", "CVEs seen, remediated and still open"],
+ "PHP vulnerability watch": ["exposed devices by risk tier, patched versus unpatched versus unknown, and exploitation indicators", "devices exposed, patched since the first analysis, still exposed and exploitation indicators found"],
  "Security tool health": ["agent and tool health per device", "unhealthy devices found and fixed"],
  "End-of-support countdown": ["devices and software nearing end of support", "items that reached end of support and were replaced"],
  "Risky software watch": ["risky software and install base", "distinct risky titles and removals"],
@@ -2996,6 +2998,19 @@ const taskLibrary = [
   "aud": [
    "sec"
   ]
+ },
+ {
+   "title": "PHP vulnerability watch",
+   "topic": "sec",
+   "aud": [
+     "sec",
+     "ops"
+   ],
+   "schedule": "Daily at 7:00 AM",
+   "expert": "Assist",
+   "goal": "Devices running vulnerable or end-of-life PHP, exploitation indicators and blind spots, tracked daily until remediation is complete.",
+   "review": "PHP critical vulnerability — exposure & exploitation assessment",
+   "fromPack": "PHP critical vulnerability — exposure & exploitation assessment"
  },
  {
   "title": "Security tool health",
@@ -3953,7 +3968,7 @@ if (location.hash) routeHash();
 
 </script>
 <footer class="page-footer">
-  <p>created by Christophe Gagin - Nexthink | last updated on 30.09.2026</p>
+  <p>created by Christophe Gagin - Nexthink | last updated on 22.10.2026</p>
   <div class="footer-legal">
     <p><strong>Disclaimer.</strong> This playbook is community-driven and is not officially maintained by Nexthink. Prompts are provided as-is. AI-generated answers can vary, so review and verify results before acting on them. Nexthink features evolve: see <a href="https://docs.nexthink.com" target="_blank" rel="noopener noreferrer">docs.nexthink.com</a> for current product documentation.</p>
     <p><strong>Trademarks.</strong> Nexthink and Nexthink product names (including Assist, Spark, Infinity and Workspace) are trademarks or product names of Nexthink. All other product and company names are trademarks of their respective owners and are used only to identify them.</p>
